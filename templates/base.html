@@ -83,15 +83,22 @@
                   <li><a href="{% url 'blog' %}">Blog</a></li>
                   <li><a href="{% url 'about' %}">About</a></li>
                   <li><a href="{% url 'contact' %}">Contact</a></li>
-                  <li><a href="#">Log in</a></li>
-                  <li class="has-children"">
-                    <a href="#">username</a>
-                    <ul class="dropdown">
-                      <li><a href="#">Log out</a></li>
-                      <li><a href="#">Add anouncment</a></li>
-                      <li><a href="#">Lease</a></li>
-                    </ul>
-                  </li>
+
+                  {% if user.is_authenticated %}
+                    <li class="has-children">
+                      <a href="#">{{ user.username|title }}</a>
+                      <ul class="dropdown">
+                        <li><a href="{% url 'logout' %}">Log out</a></li>
+                        <li><a href="#">Edite profile</a></li>
+                        <li><a href="{% url 'password_change' %}">Change password</a></li>
+                      </ul>
+                    </li>
+                  {% else %}
+                    <li><a href="{% url 'login' %}">Log in</a> |<a href="{% url 'signup' %}">Sign Up</a></li>
+                  {% endif %}
+
+
+
                 </ul>
               </nav>
             </div>
