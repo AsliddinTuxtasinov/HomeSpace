@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{%  block title %}
+    {% if user.is_authenticated %}
+        Welcome {{user.username}}
+    {% endif %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated %}
+        <div class="content-header">
+            <h1>Welcome {{user.username}}!</h1>
+            <ul>
+                <li><a href="#">Add anouncment</a></li>
+            </ul>
+        </div>
+    {% else %}
+        <h1>You are not login</h1>
+    {% endif %}
+</div>
+{% endblock %}

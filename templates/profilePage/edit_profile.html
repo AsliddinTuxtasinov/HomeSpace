@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{%  block title %}Edit Profile date page{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Edit Profile</h2>
+    <form method="post"> {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">edit done</button>
+    </form>
+</div>
+{% endblock %}
