@@ -1,21 +1,21 @@
-from django import forms
+# from django import forms
+from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser
 from main.models import Posts
 
-class CostumeUserCrateForm(UserCreationForm):
+class CostumeUserCreateForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = CustomUser
-        fields = ('username','email',) # UserCreationForm.Meta.fields + ('telefon_number',)
+        fields = ('username','email',)
 
 
 class CostumeUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ('first_name','last_name','email','telefon_number') # UserChangeForm.Meta.fields
+        fields = ('first_name','last_name','email','telefon_number')
 
-class PostCrateForm(forms.Form):
+class PostCreateForm(ModelForm):
     class Meta:
         model = Posts
-        field = ('title',)
-
+        fields = ('title',)
