@@ -11,7 +11,7 @@
         <div class="content-header">
             <h1>Welcome {{user.username}}!</h1>
             <ul>
-                <li><a href="#">Add anouncment</a></li>
+                <li><a href="{% url 'crate_post' %}">Add anouncment</a></li>
             </ul>
         </div>
     {% else %}

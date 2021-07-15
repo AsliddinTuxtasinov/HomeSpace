@@ -1,9 +1,21 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import UpdateView, ListView, CreateView
 
-from .forms import CostumeUserCrateForm, CostumeUserChangeForm
-from .models import CustomUser
+from .forms import CostumeUserCrateForm, CostumeUserChangeForm, PostCrateForm
+from main.models import Posts
+
+
+class PostCrateView(CreateView):
+    model = Posts
+    form_class = PostCrateForm
+    template_name = 'blog/crate_post.html'
+    # fields = '__all__'
+    success_url = reverse_lazy('user_page')
+
+    # def form_valid(self, form):
+    #     form.owner = self.request.user
+    #     return super().form_valid(form)
+
 
 
 class SignUpView(CreateView):
@@ -21,5 +33,6 @@ class UserEditView(UpdateView):
         return self.request.user
 
 class UserPageView(ListView):
-    model = CustomUser
+    model = Posts
+    context_object_name = 'posts'
     template_name = 'profilePage/user_page.html'
