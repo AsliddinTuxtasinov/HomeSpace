@@ -132,7 +132,7 @@ STATICFILES_DIRS = [ BASE_DIR / 'static',]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_REDIRECT_URL = 'index'
-LOGOUT_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'main:index'
+LOGOUT_REDIRECT_URL = 'main:index'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

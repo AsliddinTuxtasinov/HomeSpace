@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse,reverse_lazy
+from django.http.response import HttpResponseRedirect
 
 # from django.contrib.auth.models import User
 from django.conf import settings
@@ -51,8 +53,14 @@ class Posts(models.Model):
         self.slug = slugify(self.title)
         super().save(*args,**kwargs)
 
+    def get_absolute_url(self):
+        kwargs = {
+            'slug': self.slug
+        }
+        return reverse('main:property', kwargs=kwargs) # f"../../property/{self.slug}/"
+
     def __str__(self):
-        return f"{self.title}" #|{self.home_type}|{self.price}"
+        return f"{self.title}"
 
     class Meta:
         ordering = ['-created_at']

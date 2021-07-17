@@ -3,11 +3,14 @@
 {%  block title %}HomeSpace - Crate post page{% endblock %}
 {% block content %}
     <div class="container">
-        <h2>Crate post</h2>
-        <form method="post">
-            {% csrf_token %}
+        {% if is_create_post %}
+            <h2>Crate post</h2>
+        {% else %}
+            <h2>Change post "{{post.title}}"</h2>
+        {% endif %}
+        <form method="post">{% csrf_token %}
             {{ form.as_p }}
-        <button type="submit">Add Anouncment</button>
+            <button type="submit">{% if is_create_post %}Add Anouncment{% else %}Chage Anouncment{% endif %}</button>
         </form>
     </div>
 {% endblock %}

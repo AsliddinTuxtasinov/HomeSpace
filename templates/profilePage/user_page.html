@@ -14,14 +14,10 @@
                 <li><a href="{% url 'create_post' %}">Add anouncment</a></li>
             </ul>
         </div>
-        <div class="container">
-            <ul>
-                {% for post in posts %}
-                    <hr style="border:1px solid red;">
-                    <li><p>Title: {{ post.title }}</p></li>
-                    <li>post owner: {{ post.owner }}</li>
-                {% endfor %}
-            </ul>
+        <div class="site-section site-section-sm bg-light">
+            <div class="container">
+                {% include 'posts.html' %}
+            </div>
         </div>
     {% else %}
         <h1>You are not login</h1>

@@ -73,16 +73,16 @@
                     <a href="\">Home</a>
                   </li>
                   <li class="has-children">
-                    <a href="{% url 'properties' %}">Properties</a>
+                    <a href="{% url 'main:properties' %}">Properties</a>
                     <ul class="dropdown">
                       <li><a href="#">Buy</a></li>
                       <li><a href="#">Rent</a></li>
                       <li><a href="#">Lease</a></li>
                     </ul>
                   </li>
-                  <li><a href="{% url 'blog' %}">Blog</a></li>
-                  <li><a href="{% url 'about' %}">About</a></li>
-                  <li><a href="{% url 'contact' %}">Contact</a></li>
+                  <li><a href="{% url 'main:blog' %}">Blog</a></li>
+                  <li><a href="{% url 'main:about' %}">About</a></li>
+                  <li><a href="{% url 'main:contact' %}">Contact</a></li>
 
                   {% if user.is_authenticated %}
                     <li class="has-children">
@@ -90,7 +90,7 @@
                       <ul class="dropdown">
                         <li><a href="{% url 'logout' %}">Log out</a></li>
                         <li><a href="{% url 'edit_profile' %}">Edite profile</a></li>
-                        <li><a href="#">Add anouncment</a></li>
+                        <li><a href="{% url 'create_post' %}">Add anouncment</a></li>
                       </ul>
                     </li>
                   {% else %}

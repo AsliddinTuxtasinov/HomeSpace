@@ -18,6 +18,11 @@ class PostCreateView(CreateView):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["is_create_post"]=True
+        return context
+
 # second way for create post
 # class PostCreateView(View):
 #     form_class = PostCreateForm
