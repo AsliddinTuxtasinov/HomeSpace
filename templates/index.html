@@ -8,6 +8,7 @@
 
     <div class="site-section site-section-sm bg-light">
       <div class="container">
+
         <div class="row mb-5">
           <div class="col-12">
             <div class="site-section-title">
@@ -16,20 +17,9 @@
           </div>
         </div>
         {% include 'posts.html' %}
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <div class="site-pagination">
-              <a href="#" class="active">1</a>
-              <a href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">4</a>
-              <a href="#">5</a>
-              <span>...</span>
-              <a href="#">10</a>
-            </div>
-          </div>  
-        </div>
-        
+
+
+        {% include 'pagination.html' %}
       </div>
     </div>
 
@@ -91,34 +81,6 @@
       </div>
     </div>
 
-    <div class="site-section bg-light">
-      <div class="container">
-
-        <div class="row justify-content-center mb-5">
-          <div class="col-md-7 text-center">
-            <div class="site-section-title">
-              <h2>Our Blog</h2>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-
-          {% for blog in our_blog %}
-            <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up" data-aos-delay="100">
-              <a href="#"><img src="{% static 'images/img_4.jpg' %}" alt="Image" class="img-fluid"></a>
-              <div class="p-4 bg-white">
-                <span class="d-block text-secondary small text-uppercase">Jan 20th, 2019</span>
-                <h2 class="h5 text-black mb-3"><a href="#">When To Sell &amp; How Much To Sell?</a></h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias enim, ipsa exercitationem veniam quae sunt.</p>
-              </div>
-            </div>
-          {% endfor %}
-
-        </div>
-
-      </div>
-    </div>
 
     <div class="site-section">
     <div class="container">

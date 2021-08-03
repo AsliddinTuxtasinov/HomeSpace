@@ -8,6 +8,7 @@
 
 <div class="site-section site-section-sm bg-light">
       <div class="container">
+
         <div class="row mb-5">
           <div class="col-12">
             <div class="site-section-title">
@@ -16,19 +17,8 @@
           </div>
         </div>
         {% include 'posts.html' %}
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <div class="site-pagination">
-              <a href="#" class="active">1</a>
-              <a href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">4</a>
-              <a href="#">5</a>
-              <span>...</span>
-              <a href="#">10</a>
-            </div>
-          </div>
-        </div>
+
+        {% include 'pagination.html' %}
 
       </div>
     </div>

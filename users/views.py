@@ -1,13 +1,29 @@
-# from django.shortcuts import render, redirect  # second way for create post
+from django.shortcuts import render, redirect  # second way for create post
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, ListView, CreateView, View
+from django.views.generic import UpdateView, ListView, CreateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import CostumeUserCreateForm, CostumeUserChangeForm, PostCreateForm
-from main.models import Posts
+from .forms import CostumeUserCreateForm, CostumeUserChangeForm, PostCreateForm, PostChageForm
+from main.models import Posts,Districts
 
+# =============================== post views =============================== #
+# Post delete view
+class PostDeleteView(LoginRequiredMixin,DeleteView):
+    model = Posts
+    template_name='blog/posts_confirm_delete.html'
+    success_url = reverse_lazy('user_page')
+    context_object_name = 'post'
+
+# Post chahge view
+class PostChageView(LoginRequiredMixin,UpdateView):
+    model = Posts
+    form_class = PostChageForm
+    template_name = 'blog/create_post.html'
+    success_url = reverse_lazy('user_page')
+    context_object_name = 'post'
 
 # first way for create post
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin,CreateView):
     form_class = PostCreateForm
     template_name = 'blog/create_post.html'
     success_url = reverse_lazy("user_page")
@@ -22,6 +38,12 @@ class PostCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context["is_create_post"]=True
         return context
+
+# AJAX
+def load_cities(request):
+    region_id = request.GET.get('region_id')
+    districts = Districts.objects.filter(region_id=region_id)
+    return render(request, 'blog/city_dropdown_list_options.html', {'districts': districts})
 
 # second way for create post
 # class PostCreateView(View):
@@ -42,12 +64,14 @@ class PostCreateView(CreateView):
 #         return render(request, self.template_name, {'form': form})
 
 
+# =============================== user views =============================== #
+# Sign up view
 class SignUpView(CreateView):
     form_class = CostumeUserCreateForm
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
-
+# user edit data view
 class UserEditView(UpdateView):
     form_class = CostumeUserChangeForm
     template_name = 'profilePage/edit_profile.html'
@@ -56,11 +80,15 @@ class UserEditView(UpdateView):
     def get_object(self):
         return self.request.user
 
+# user page view
 class UserPageView(ListView):
     model = Posts
     context_object_name = 'posts'
     template_name = 'profilePage/user_page.html'
+    paginate_by = 9
+    paginate_orphans = 3
 
     def get_queryset(self):
-        queryset = self.model._default_manager.filter(owner=self.request.user)
+        owner = self.request.user
+        queryset = self.model._default_manager.filter(owner=owner)
         return queryset

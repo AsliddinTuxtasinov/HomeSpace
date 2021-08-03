@@ -1,6 +1,10 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import SignUpView, UserEditView ,UserPageView, PostCreateView
+from .views import (
+    SignUpView, UserEditView ,UserPageView, PostCreateView,
+    PostChageView, PostDeleteView,load_cities
+
+)
 
 urlpatterns = [
     path('signup/', SignUpView.as_view(), name='signup'),
@@ -11,4 +15,10 @@ urlpatterns = [
 
     path('user_page/', UserPageView.as_view(), name='user_page'),
     path('create_post/', PostCreateView.as_view(), name='create_post'),
+    path('property/<slug:slug>/edit', PostChageView.as_view(), name='property-edit'),
+    path('property/<slug:slug>/delete', PostDeleteView.as_view(), name='property-delete'),
+
+    path('ajax/load-cities/', load_cities,
+         name='ajax_load_cities'), # AJAX
+
 ]

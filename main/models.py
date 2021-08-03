@@ -1,12 +1,37 @@
 from django.db import models
-from django.urls import reverse,reverse_lazy
-from django.http.response import HttpResponseRedirect
+from django.urls import reverse
 
-# from django.contrib.auth.models import User
-from django.conf import settings
-User = settings.AUTH_USER_MODEL
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+# from django.conf import settings
+# User = settings.AUTH_USER_MODEL
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
+
+
+class Regions(models.Model):
+    region = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.region
+
+    class Meta:
+        verbose_name_plural = 'Regions'
+        verbose_name = 'Region'
+
+
+class Districts(models.Model):
+    region=models.ForeignKey( Regions,on_delete=models.CASCADE )
+    district = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.district
+
+    class Meta:
+        verbose_name_plural = 'Districts'
+        verbose_name = 'District'
 
 
 class Posts(models.Model):
@@ -42,8 +67,11 @@ class Posts(models.Model):
     # baths = models.IntegerField('garages', validators=[MinValueValidator(0), MaxValueValidator(5)])
     # property_status = models.CharField(max_length=20,choices=type_status)
     # tel_num = models.CharField("telefon number:",max_length=150)
+    region        = models.ForeignKey(Regions,on_delete=models.CASCADE,null=True)#default='somewhere in uzbesistan')
+    district      = models.ForeignKey(Districts,on_delete=models.CASCADE,null=True)#default='somewhere in uzbesistan')
+    adress        = models.CharField(max_length=255,null=True)
     created_at    = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(max_length=255, db_index=True, blank=True)
+    slug = models.SlugField(max_length=255, db_index=True,blank=True)
 
     owner      = models.ForeignKey(User, on_delete=models.CASCADE)
     is_publish = models.BooleanField(default=False)
@@ -54,10 +82,16 @@ class Posts(models.Model):
         super().save(*args,**kwargs)
 
     def get_absolute_url(self):
-        kwargs = {
-            'slug': self.slug
-        }
-        return reverse('main:property', kwargs=kwargs) # f"../../property/{self.slug}/"
+        kwargs = { 'slug': self.slug }
+        return reverse('main:property', kwargs=kwargs)
+
+    def get_absolute_url_edit(self):
+        kwargs = { 'slug': self.slug }
+        return reverse('property-edit', kwargs=kwargs)
+
+    def get_absolute_url_delete(self):
+        kwargs = { 'slug': self.slug }
+        return reverse('property-delete', kwargs=kwargs)
 
     def __str__(self):
         return f"{self.title}"
@@ -68,10 +102,10 @@ class Posts(models.Model):
         verbose_name = 'Post'
 
 
-# # class PostComment(models.Model):
-# #     Full_name=models.CharField("your full name:", max_length=255)
-# #     comment_owner = models.ForeignKey(User, on_delete=models.CASCADE)
-# #     comment = models.TextField("your comment:")
+# class PostComment(models.Model):
+#     Full_name=models.CharField("your full name:", max_length=255)
+#     comment_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+#     comment = models.TextField("your comment:")
 #
 # class OurAgents(models.Model):
 #     agent = models.ForeignKey(User,on_delete=models.CASCADE)

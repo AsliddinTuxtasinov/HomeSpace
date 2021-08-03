@@ -8,9 +8,30 @@
         {% else %}
             <h2>Change post "{{post.title}}"</h2>
         {% endif %}
-        <form method="post">{% csrf_token %}
+        <form method="post" id="postForm" data-cities-url="{% url 'ajax_load_cities' %}">
+            {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">{% if is_create_post %}Add Anouncment{% else %}Chage Anouncment{% endif %}</button>
         </form>
     </div>
+{% endblock %}
+
+{%  block js %}
+<script>
+    $("#id_region").change(function () {
+        const url = $("#postForm").attr("data-cities-url");
+        const regionId = $(this).val();
+        console.log(regionId)
+
+        $.ajax({
+            url: url,
+            data: {
+                'region_id': regionId
+            },
+            success: function (data) {
+                $("#id_district").html(data);
+            }
+        });
+    });
+</script>
 {% endblock %}
