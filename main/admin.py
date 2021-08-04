@@ -5,7 +5,7 @@ from .models import Posts,Regions,Districts
 @admin.register(Posts)
 class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug":("title",)}
-    list_display = ('title','owner')
+    list_display = ('title','owner','diller')
 
 @admin.register(Regions)
 class RegionAdmin(admin.ModelAdmin):

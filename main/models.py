@@ -3,6 +3,7 @@ from django.urls import reverse
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
+from users.models import Agents
 
 # from django.conf import settings
 # User = settings.AUTH_USER_MODEL
@@ -70,6 +71,7 @@ class Posts(models.Model):
     region        = models.ForeignKey(Regions,on_delete=models.CASCADE,null=True)#default='somewhere in uzbesistan')
     district      = models.ForeignKey(Districts,on_delete=models.CASCADE,null=True)#default='somewhere in uzbesistan')
     adress        = models.CharField(max_length=255,null=True)
+    diller        = models.ForeignKey(Agents,on_delete=models.SET_NULL,null=True)
     created_at    = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=255, db_index=True,blank=True)
 

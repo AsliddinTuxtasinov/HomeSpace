@@ -2,7 +2,7 @@
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from users.models import CustomUser
+from .models import CustomUser,Agents
 from main.models import Posts,Districts
 
 # ===================================================================================== #
@@ -16,12 +16,17 @@ class CostumeUserChangeForm(UserChangeForm):
         model = CustomUser
         fields = ('first_name','last_name','email','telefon_number')
 
+class AgentsEditForm(ModelForm):
+    class Meta:
+        model=Agents
+        fields=('agent_info','telegram')
+
 # ===================================================================================== #
 # Post forms
 class PostCreateForm(ModelForm):
     class Meta:
         model = Posts
-        fields = ('title','region','district','adress')
+        fields = ('title','region','district','adress','diller')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs)
@@ -39,4 +44,4 @@ class PostCreateForm(ModelForm):
 class PostChageForm(ModelForm):
     class Meta:
         model=Posts
-        fields=('title','region','district','adress')
+        fields=('title','region','district','adress','diller')

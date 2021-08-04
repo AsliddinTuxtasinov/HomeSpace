@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect  # second way for create post
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, ListView, CreateView, DeleteView
+from django.views.generic import UpdateView, ListView, CreateView, DeleteView,View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
-from .forms import CostumeUserCreateForm, CostumeUserChangeForm, PostCreateForm, PostChageForm
+from .forms import CostumeUserCreateForm, CostumeUserChangeForm, PostCreateForm, PostChageForm,AgentsEditForm
 from main.models import Posts,Districts
+from .models import Agents
 
 # =============================== post views =============================== #
 # Post delete view
@@ -72,13 +75,51 @@ class SignUpView(CreateView):
     template_name = 'registration/signup.html'
 
 # user edit data view
-class UserEditView(UpdateView):
+class UserEditView(View):
     form_class = CostumeUserChangeForm
+    form_class_agent = AgentsEditForm
     template_name = 'profilePage/edit_profile.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('user_page')
 
-    def get_object(self):
-        return self.request.user
+    def get(self, request):
+        context={}
+        context['form']=self.form_class(instance=request.user)
+        if request.user.is_agent:
+            agent=Agents.objects.get(agent=request.user)
+            context['form_agent'] = self.form_class_agent(instance=agent)
+        return render(request,self.template_name,context)
+
+    def post(self,request):
+        context={}
+        form=self.form_class(request.POST,instance=request.user)
+        if request.user.is_agent:
+            agent = Agents.objects.get(agent=request.user)
+            form_agent=self.form_class_agent(request.POST,instance=agent)
+
+            if form.is_valid() and form_agent.is_valid():
+                form.save()
+                form_agent.save()
+                return redirect('user_page')
+            context['form_agent'] = form_agent
+        else:
+            if form.is_valid():
+                form.save()
+                return redirect('user_page')
+
+            context['form_agent'] = None
+        context['form']=form
+        return render(request, self.template_name, context)
+
+
+# class UserEditView(UpdateView):
+#     form_class = CostumeUserChangeForm
+#     template_name = 'profilePage/edit_profile.html'
+#     success_url = reverse_lazy('index')
+#
+#     def get_object(self):
+#         return self.request.user
+
+
 
 # user page view
 class UserPageView(ListView):
@@ -89,6 +130,10 @@ class UserPageView(ListView):
     paginate_orphans = 3
 
     def get_queryset(self):
-        owner = self.request.user
-        queryset = self.model._default_manager.filter(owner=owner)
+        client = self.request.user
+        if client.is_agent: #hatolari bor
+            diller=str(Agents.objects.get(agent=client))
+            queryset = self.model._default_manager.filter(instance=diller)
+        else:
+            queryset = self.model._default_manager.filter(owner=user)
         return queryset
