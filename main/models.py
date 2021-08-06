@@ -52,7 +52,6 @@ class Posts(models.Model):
     #     (sale,'sale'),
     #     (rent,'rent')
     # ]
-
     title       = models.CharField(max_length=255,unique=True)
     # full_adress = models.CharField('full adress',max_length=255)
     # home_type   = models.CharField(max_length=20, choices=type)
@@ -95,6 +94,10 @@ class Posts(models.Model):
         kwargs = { 'slug': self.slug }
         return reverse('property-delete', kwargs=kwargs)
 
+    def get_contact_with_agent_url(self):
+        kwargs = { 'slug': self.slug }
+        return reverse('main:contact', kwargs=kwargs)
+
     def __str__(self):
         return f"{self.title}"
 
@@ -103,21 +106,29 @@ class Posts(models.Model):
         verbose_name_plural = 'Posts'
         verbose_name = 'Post'
 
+class ContactWithAgent(models.Model):
+    post  = models.ForeignKey(Posts,on_delete=models.CASCADE,blank=False)
+    agent = models.ForeignKey(Agents,on_delete=models.CASCADE,blank=False)
+    name  = models.CharField(max_length=150,blank=False)
+    email = models.EmailField(blank=False)
+    number= models.CharField(max_length=50,blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.post}|{self.name}|{self.number}"
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name_plural = 'Contacts'
+        verbose_name = 'Contac tWith Agent'
 
 # class PostComment(models.Model):
 #     Full_name=models.CharField("your full name:", max_length=255)
 #     comment_owner = models.ForeignKey(User, on_delete=models.CASCADE)
 #     comment = models.TextField("your comment:")
-#
-# class OurAgents(models.Model):
-#     agent = models.ForeignKey(User,on_delete=models.CASCADE)
-#     ixtisoslik = models.CharField(max_length=200) # inglizchaga ozgartirish kerak
-#     agent_info = models.TextField(max_length=300)
-#     facebook = models.URLField(default='#', null=False)
-#     telegram = models.URLField(default='#', null=False)
-#     instagram = models.URLField(default='#', null=False)
-#
-#
+
+
+
 # class AboutOurs(models.Model):
 #     our_company = models.TextField()
 #     pic_company = models.ImageField(upload_to='aboutOurs/about_picture')

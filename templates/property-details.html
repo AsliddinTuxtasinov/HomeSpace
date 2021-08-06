@@ -11,7 +11,7 @@
         <h1 class="mb-2">625 S. Berendo St</h1>
         <p class="mb-5"><strong class="h2 text-success font-weight-bold">$1,000,500</strong></p>
         {% if user.is_authenticated %}
-          {% if is_author %}
+          {% if is_author_or_agent %}
             <a href="{{post.get_absolute_url_edit}}">Edit</a> | <a href="{{post.get_absolute_url_delete}}">Delete</a>
           {% endif %}
         {% endif %}
@@ -126,22 +126,20 @@
         <div class="bg-white widget border rounded">
 
           <h3 class="h4 text-black widget-title mb-3">Contact Agent</h3>
-          <form action="" class="form-contact-agent">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone</label>
-              <input type="text" id="phone" class="form-control">
-            </div>
+<!--          -->
+          <form action="{{post.get_contact_with_agent_url}}" method="post" class="form-contact-agent">
+            {% csrf_token %}
+            {% for contact_form in contact_with_agent_form %}
+              <div class="form-group">
+                <label>{{contact_form.label}}</label>
+                {{contact_form}}
+                {{contact_form.errors}}
+              </div>
+            {% endfor %}
             <div class="form-group">
               <input type="submit" id="phone" class="btn btn-primary" value="Send Message">
             </div>
+<!--            -->
           </form>
 
         </div>
@@ -152,6 +150,7 @@
         </div>
 
       </div>
+
 
     </div>
   </div>

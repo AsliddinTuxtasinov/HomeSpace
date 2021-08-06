@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     HomePageView,AboutPageView,ContactPageView,# BlogPageView,
-    PropertiesPageView,DetailPageView
+    PropertiesPageView,DetailPageView,ContactWithAgentView
 )
 
 app_name='main'
@@ -14,4 +14,5 @@ urlpatterns = [
     path('properties/', PropertiesPageView.as_view(), name='properties'),
 
     path('property/<slug:slug>/', DetailPageView.as_view(), name='property'),
+    path('contact-with-agent/<slug:slug>/', ContactWithAgentView.as_view(), name='contact'),
 ]

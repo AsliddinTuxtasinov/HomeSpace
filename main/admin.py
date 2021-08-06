@@ -1,11 +1,12 @@
 from django.contrib import admin
 
-from .models import Posts,Regions,Districts
+from .models import Posts,Regions,Districts,ContactWithAgent
 
 @admin.register(Posts)
 class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug":("title",)}
     list_display = ('title','owner','diller')
+
 
 @admin.register(Regions)
 class RegionAdmin(admin.ModelAdmin):
@@ -16,3 +17,8 @@ class RegionAdmin(admin.ModelAdmin):
 class DistrictAdmin(admin.ModelAdmin):
     pass
     # list_display = ['__all__']
+
+@admin.register(ContactWithAgent)
+class ContactWithAgentAdmin(admin.ModelAdmin):
+    list_display = ('post','agent','name','number')
+    ordering = ['-created_at']

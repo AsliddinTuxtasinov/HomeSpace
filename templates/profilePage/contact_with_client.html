@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{%  block title %}Contact client{% endblock %}
+{% block content %}
+<ul>
+    {% for contact in contacts %}
+        <li>
+            {{contact.post}}
+            {{contact.agent}}
+            {{contact.name}}
+            {{contact.email}}
+            {{contact.number}}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

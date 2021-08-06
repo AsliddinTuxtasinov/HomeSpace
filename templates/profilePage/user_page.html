@@ -9,11 +9,19 @@
 <div class="container">
     {% if user.is_authenticated %}
         <div class="content-header">
-            <h1>Welcome {{user.username}}!</h1>
-            <ul>
-                <li><a href="{% url 'create_post' %}">Add anouncment</a></li>
-            </ul>
+            {% if user.is_agent %}
+                <h1>Welcome agent {{user.username}}!</h1>
+                <ul>
+                    <li><a href="{% url 'contact-with-client' %}">contact wiht clients</a></li>
+                </ul>
+            {% else %}
+                <h1>Welcome {{user.username}}!</h1>
+                <ul>
+                    <li><a href="{% url 'create_post' %}">Add anouncment</a></li>
+                </ul>
+            {% endif %}
         </div>
+
         <div class="site-section site-section-sm bg-light">
             <div class="container">
                 {% include 'posts.html' %}

@@ -5,8 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-from .forms import CostumeUserCreateForm, CostumeUserChangeForm, PostCreateForm, PostChageForm,AgentsEditForm
-from main.models import Posts,Districts
+from .forms import CostumeUserCreateForm, CostumeUserChangeForm, PostCreateForm, PostChageForm,AgentsEditForm,AgentPostChageForm
+from main.models import Posts,Districts,ContactWithAgent
 from .models import Agents
 
 # =============================== post views =============================== #
@@ -24,6 +24,13 @@ class PostChageView(LoginRequiredMixin,UpdateView):
     template_name = 'blog/create_post.html'
     success_url = reverse_lazy('user_page')
     context_object_name = 'post'
+
+    def get_form_class(self):
+        client=self.request.user
+        if client.is_agent:
+            return AgentPostChageForm
+        else:
+            return self.form_class
 
 # first way for create post
 class PostCreateView(LoginRequiredMixin,CreateView):
@@ -74,6 +81,22 @@ class SignUpView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
+# Contact With Client View
+class ContactWithClientView(LoginRequiredMixin,ListView):
+    model = ContactWithAgent
+    context_object_name = 'contacts'
+    template_name = 'profilePage/contact_with_client.html'
+    paginate_by = 6
+    paginate_orphans = 3
+
+    def get_queryset(self):
+        client = self.request.user
+        if client.is_authenticated:
+            diller=Agents.objects.get(agent=client)
+            queryset = self.model._default_manager.filter(agent=diller)
+            return queryset
+        return None
+
 # user edit data view
 class UserEditView(View):
     form_class = CostumeUserChangeForm
@@ -110,7 +133,6 @@ class UserEditView(View):
         context['form']=form
         return render(request, self.template_name, context)
 
-
 # class UserEditView(UpdateView):
 #     form_class = CostumeUserChangeForm
 #     template_name = 'profilePage/edit_profile.html'
@@ -122,18 +144,18 @@ class UserEditView(View):
 
 
 # user page view
-class UserPageView(ListView):
+class UserPageView(LoginRequiredMixin,ListView):
     model = Posts
     context_object_name = 'posts'
     template_name = 'profilePage/user_page.html'
-    paginate_by = 9
+    paginate_by = 6
     paginate_orphans = 3
 
     def get_queryset(self):
         client = self.request.user
-        if client.is_agent: #hatolari bor
-            diller=str(Agents.objects.get(agent=client))
-            queryset = self.model._default_manager.filter(instance=diller)
+        if client.is_agent:
+            diller=Agents.objects.get(agent=client)
+            queryset = self.model._default_manager.filter(diller=diller)
         else:
-            queryset = self.model._default_manager.filter(owner=user)
+            queryset = self.model._default_manager.filter(owner=client)
         return queryset

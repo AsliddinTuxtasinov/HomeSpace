@@ -20,6 +20,7 @@ class CustomUser(AbstractUser):
 
 class Agents(models.Model):
     agent=models.ForeignKey(get_user_model(),on_delete=models.CASCADE,related_name='agent')
+    # profile_img=models.ImageField(upload_to='agents/profile_img')
     agent_info=models.TextField(max_length=300,null=True,blank=True)
     telegram = models.URLField(null=True,blank=True)
 
