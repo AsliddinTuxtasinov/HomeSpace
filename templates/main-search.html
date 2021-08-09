@@ -1,7 +1,7 @@
 {% load static %}
 <div class="py-5">
-      <div class="container">
-        <form class="row mb-5" method="get" action="">
+  <div class="container">
+    <form class="row mb-5" method="get" action="" id="postForm" data-cities-url="{% url 'ajax_load_cities' %}">
 <!--          <div class="col-sm-6 col-md-4 col-lg-3 mb-4">-->
 <!--            <div class="select-wrap">-->
 <!--              <span class="icon icon-arrow_drop_down"></span>-->
@@ -84,43 +84,42 @@
 <!--              <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />-->
 <!--            </div>-->
 <!--          </div>-->
-            {{filter_form.form.as_p}}
-          <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-            <input type="submit" class="btn btn-primary btn-block form-control-same-height rounded-0" value="Search">
-          </div>
-
-        </form>
-        {% if main_page %}
-          <div class="row">
-            <div class="col-md-6 col-lg-4 mb-3 mb-lg-0">
-              <div class="feature d-flex align-items-start">
-                <span class="icon mr-3 flaticon-house"></span>
-                <div class="text">
-                  <h2 class="mt-0">Wide Range of Properties</h2>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit rem sint debitis porro quae dolorum neque.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-3 mb-lg-0">
-              <div class="feature d-flex align-items-start">
-                <span class="icon mr-3 flaticon-rent"></span>
-                <div class="text">
-                  <h2 class="mt-0">Rent or Sale</h2>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit rem sint debitis porro quae dolorum neque.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-3 mb-lg-0">
-              <div class="feature d-flex align-items-start">
-                <span class="icon mr-3 flaticon-location"></span>
-                <div class="text">
-                  <h2 class="mt-0">Property Location</h2>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit rem sint debitis porro quae dolorum neque.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        {% endif %}
-
+        {{filter_form.form.as_p}}
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+        <input type="submit" class="btn btn-primary btn-block form-control-same-height rounded-0" value="Search">
       </div>
-    </div>
+
+    </form>
+    {% if main_page %}
+      <div class="row">
+        <div class="col-md-6 col-lg-4 mb-3 mb-lg-0">
+          <div class="feature d-flex align-items-start">
+            <span class="icon mr-3 flaticon-house"></span>
+            <div class="text">
+              <h2 class="mt-0">Wide Range of Properties</h2>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit rem sint debitis porro quae dolorum neque.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-3 mb-lg-0">
+          <div class="feature d-flex align-items-start">
+            <span class="icon mr-3 flaticon-rent"></span>
+            <div class="text">
+              <h2 class="mt-0">Rent or Sale</h2>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit rem sint debitis porro quae dolorum neque.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-3 mb-lg-0">
+          <div class="feature d-flex align-items-start">
+            <span class="icon mr-3 flaticon-location"></span>
+            <div class="text">
+              <h2 class="mt-0">Property Location</h2>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit rem sint debitis porro quae dolorum neque.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
