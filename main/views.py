@@ -4,14 +4,20 @@ from django.views.generic.base import TemplateView
 from django.views.generic import ListView, DetailView,CreateView,View
 
 from .models import Posts
-from .forms import ContactWithAgentForm
+from .forms import ContactWithAgentForm,FilterHomeForm
 
 class HomePageView(ListView):
-    model = Posts
+    # model = Posts
+    queryset = Posts.objects.all()
     context_object_name = 'posts'
     template_name = 'index.html'
-    paginate_by = 9
-    paginate_orphans = 3
+    paginate_by = 1
+    paginate_orphans = 1
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset=FilterHomeForm(self.request.GET, queryset=queryset)
+        return queryset.qs
 
     def get_context_data(self, *args, **kwargs):
         try:
@@ -25,6 +31,9 @@ class HomePageView(ListView):
         context['our_blog']   = [i for i in range(3)]
         context['main_posts'] = Posts.objects.all()[0:3]
         context['main_page']  = True
+        context['filter_form']=FilterHomeForm(self.request.GET, queryset = self.get_queryset())
+        context['region_page'] = ''.join([ f"region={x}&"for x in self.request.GET.getlist('region') ])
+        context['district_page'] = ''.join([ f"district={x}&"for x in self.request.GET.getlist('district') ])
         return context
 
 
@@ -41,7 +50,6 @@ class PropertiesPageView(ListView):
         context['main_page'] = False
         return context
 
-
 class AboutPageView(TemplateView):
     template_name = 'about.html'
 
@@ -51,7 +59,6 @@ class AboutPageView(TemplateView):
         context['leaders'] = [200,300,400,400,200,300]
         return context
 
-
 class ContactPageView(TemplateView):
     template_name = 'contact.html'
 
@@ -60,7 +67,6 @@ class ContactPageView(TemplateView):
         context['agents'] = [i for i in range(9)]
         # context['leaders'] = [200,300,400,400,200,300]
         return context
-
 
 class DetailPageView(DetailView):
     model = Posts
@@ -139,9 +145,6 @@ class ContactWithAgentView(View):
             'contact_with_agent_form': self.form_class
         }
         return render(request, self.template_name, context)
-
-
-
 
 # class BlogPageView(TemplateView):
 #     template_name = 'blog.html'

@@ -1,8 +1,7 @@
 # HomeSpace
 **Note:** 
-`Search`,
-`Filter`,
+`Filter -> 50% done`,
 `Agent's page-styles`,
 `subscribe`,
 `send message`.
-**I have to solve this main problems :|**
+**I must solve this main problems :|**

@@ -1,5 +1,12 @@
 from django.forms import ModelForm,TextInput,EmailInput
-from .models import ContactWithAgent
+from django_filters import FilterSet
+from .models import ContactWithAgent,Posts
+
+class FilterHomeForm(FilterSet):
+    class Meta:
+        model=Posts
+        fields=['region','district']
+
 
 class ContactWithAgentForm(ModelForm):
     # name=TextInput(

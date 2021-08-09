@@ -78,6 +78,7 @@ class Posts(models.Model):
     is_publish = models.BooleanField(default=False)
 
 
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super().save(*args,**kwargs)
