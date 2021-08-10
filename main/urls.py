@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    HomePageView,AboutPageView,ContactPageView,# BlogPageView,
+    HomePageView,SubscribeView,AboutPageView,ContactPageView,# BlogPageView,
     PropertiesPageView,DetailPageView,ContactWithAgentView
 )
 
@@ -8,6 +8,7 @@ app_name='main'
 
 urlpatterns = [
     path('', HomePageView.as_view(),name='index'),
+    path('subscribe/', SubscribeView.as_view(),name='subscribe'),
     # path('blog/', BlogPageView.as_view(),name='blog'),
     path('about/', AboutPageView.as_view(),name='about'),
     path('contact/', ContactPageView.as_view(),name='contact'),

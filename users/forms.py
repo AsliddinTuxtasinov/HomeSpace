@@ -49,4 +49,5 @@ class PostChageForm(ModelForm):
 class AgentPostChageForm(ModelForm):
     class Meta:
         model=Posts
-        exclude=('owner',)
+        fields = ('title', 'region', 'district', 'adress','is_publish')
+        # exclude=('owner',)

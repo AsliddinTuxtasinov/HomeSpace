@@ -24,3 +24,23 @@
     </div>
 
 {% endblock %}
+{%  block js %}
+<script>
+    // ajax for filter => regions and districts
+    $("#id_region").change(function () {
+        const url = $("#postForm").attr("data-cities-url");
+        const regionId = $(this).val();
+        console.log(regionId)
+
+        $.ajax({
+            url: url,
+            data: {
+                'region_id': regionId
+            },
+            success: function (data) {
+                $("#id_district").html(data);
+            }
+        });
+    });
+</script>
+{% endblock %}

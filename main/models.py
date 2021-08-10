@@ -76,6 +76,7 @@ class Posts(models.Model):
 
     owner      = models.ForeignKey(User, on_delete=models.CASCADE)
     is_publish = models.BooleanField(default=False)
+    is_send_mail = models.BooleanField(default=False)
 
 
 
@@ -122,6 +123,13 @@ class ContactWithAgent(models.Model):
         ordering = ['-created_at']
         verbose_name_plural = 'Contacts'
         verbose_name = 'Contac tWith Agent'
+
+class SubscribeEmail(models.Model):
+    email=models.EmailField("Your email",unique=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.email} was subscrbied at {self.created_at}"
 
 # class PostComment(models.Model):
 #     Full_name=models.CharField("your full name:", max_length=255)

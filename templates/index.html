@@ -6,7 +6,7 @@
     {% include 'main-posts.html' %}
     {% include 'main-search.html' %}
 
-    <div class="site-section site-section-sm bg-light">
+<div class="site-section site-section-sm bg-light" xmlns:input="http://www.w3.org/1999/html">
       <div class="container">
 
         <div class="row mb-5">
@@ -119,13 +119,22 @@
 
     <div class="site-section site-section-sm bg-primary">
       <div class="container">
+        {% for msg in messages %}
+          <div class="alert alert-success">
+            {{msg}}
+          </div>
+        {% endfor %}
         <div class="row align-items-center">
           <div class="col-md-8">
-            <h2 class="text-white">Wide Range of Properties Just For You</h2>
-            <p class="lead text-white-5">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <h2 class="text-white">Eng so'ngi e'lonlardan habardor bo'lish uchun bizga obuna bo'ling!</h2>
+            <p class="lead text-white-5">Email pochtangizni kiriting, biz sizga eng songi e'lonlar haqida xabar beramiz!</p>
           </div>
           <div class="col-md-4 text-center">
-            <a href="#" class="btn btn-outline-primary btn-block py-3 btn-lg">See Properties</a>
+            <form action="{% url 'main:subscribe' %}" method="post">
+              {% csrf_token %}
+              {{subsribe_form}}
+              <input type="submit" class="btn btn-outline-primary btn-block py-3 btn-lg" value="obuna bo'lish">
+            </form>
           </div>
         </div>
       </div>

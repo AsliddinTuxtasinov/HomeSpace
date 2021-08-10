@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect  # second way for create post
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy,reverse
+from django.core.mail import send_mail,EmailMultiAlternatives # for send message to mail
+from django.contrib import messages
 from django.views.generic import UpdateView, ListView, CreateView, DeleteView,View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
 from .forms import CostumeUserCreateForm, CostumeUserChangeForm, PostCreateForm, PostChageForm,AgentsEditForm,AgentPostChageForm
-from main.models import Posts,Districts,ContactWithAgent
+from main.models import Posts,Districts,ContactWithAgent,SubscribeEmail
 from .models import Agents
 
 # =============================== post views =============================== #
@@ -31,6 +33,29 @@ class PostChageView(LoginRequiredMixin,UpdateView):
             return AgentPostChageForm
         else:
             return self.form_class
+
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        if self.object.is_publish and self.request.user.is_agent and self.object.is_send_mail==False:
+            link=f"http://127.0.0.1:8000/property/{self.object.slug}/" # this is not perfect way. In the future may be repair it
+            title = self.object.title
+            message=f"""
+                Yangi ajoyib uy e'lonlar safiga qo'yildi :)\n
+                siz bu e'lonni quydagi havola roqali ko'rishingiz mumkin\n
+                 -> {link}"""
+            emails=[''.join(i.email) for i in SubscribeEmail.objects.all()]
+            print(emails)
+
+            try:
+                send_mail(title,message,'',emails,fail_silently=False,)
+            except:
+                messages.error(self.request, "serverga ulanishda xatobor iltimos boshqatan urinib ko'ring !")
+                return redirect(self.request.path)
+            form.instance.is_send_mail=True
+
+        self.object = form.save()
+        return super().form_valid(form)
 
 # first way for create post
 class PostCreateView(LoginRequiredMixin,CreateView):

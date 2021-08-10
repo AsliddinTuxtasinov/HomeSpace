@@ -8,6 +8,11 @@
         {% else %}
             <h2>Change post "{{post.title}}"</h2>
         {% endif %}
+        {% for msg in messages %}
+            <div class="alert alert-success">
+                {{msg}}
+            </div>
+        {% endfor %}
         <form method="post" id="postForm" data-cities-url="{% url 'ajax_load_cities' %}">
             {% csrf_token %}
             {{ form.as_p }}
