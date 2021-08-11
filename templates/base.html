@@ -74,11 +74,11 @@
                     <a href="\">Home</a>
                   </li>
                   <li class="has-children">
-                    <a href="{% url 'main:properties' %}">Properties</a>
+                    <a href="{% url 'main:properties' %}">Announcement</a>
                     <ul class="dropdown">
                       <li><a href="#">Buy</a></li>
                       <li><a href="#">Rent</a></li>
-                      <li><a href="#">Lease</a></li>
+                      <li><a href="#">Lease (as kredit)</a></li>
                     </ul>
                   </li>
 <!--                  <li><a href="#">Blog</a></li>-->
@@ -95,7 +95,8 @@
                       </ul>
                     </li>
                   {% else %}
-                    <li><a href="{% url 'login' %}">Log in</a> |<a href="{% url 'signup' %}">Sign Up</a></li>
+                    <li><a href="{% url 'login' %}">Log in</a></li><li>|</li>
+                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
                   {% endif %}
 
                 </ul>

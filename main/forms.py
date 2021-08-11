@@ -1,11 +1,17 @@
 from django.forms import ModelForm,TextInput,EmailInput
-from django_filters import FilterSet
-from .models import ContactWithAgent,SubscribeEmail,Posts #,Districts
+from django_filters import FilterSet,NumberFilter
+from .models import ContactWithAgent,SubscribeEmail,Posts ,Districts
 
 class FilterHomeForm(FilterSet):
+    price__lt = NumberFilter(field_name='price', lookup_expr='lt', label='Narxi kichikroq')
+    price__gt=NumberFilter(field_name='price',lookup_expr='gt',label='Narxi kattaroq')
+
+    year_build__lt = NumberFilter(field_name='year_build', lookup_expr='lt', label='shu yildan pastida qurilgan')
+    year_build__gt = NumberFilter(field_name='year_build', lookup_expr='gt', label='shu yildan tepsida qurilgan')
+
     class Meta:
         model=Posts
-        fields=['region','district']
+        fields=('region','district',)
 
     # def __init__(self, *args, **kwargs):
     #     super().__init__(*args, **kwargs)

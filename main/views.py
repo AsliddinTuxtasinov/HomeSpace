@@ -17,7 +17,7 @@ class HomePageView(ListView):
     queryset = Posts.objects.all()
     context_object_name = 'posts'
     template_name = 'index.html'
-    paginate_by = 15
+    paginate_by = 1
     paginate_orphans = 1
 
     def get_queryset(self):
@@ -83,8 +83,8 @@ class PropertiesPageView(ListView):
     queryset = Posts.objects.all()
     context_object_name = 'posts'
     template_name = 'properties.html'
-    paginate_by = 9
-    paginate_orphans = 3
+    paginate_by = 1
+    paginate_orphans = 1
 
     def get_queryset(self):
         queryset = super().get_queryset()
