@@ -1,7 +1,8 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <div class="py-5">
   <div class="container">
-    <form class="row mb-5" method="get" action="" id="postForm" data-cities-url="{% url 'ajax_load_cities' %}">
+    <form class="row mb-5 uniForm" method="get" action="" id="postForm" data-cities-url="{% url 'ajax_load_cities' %}">
 <!--          <div class="col-sm-6 col-md-4 col-lg-3 mb-4">-->
 <!--            <div class="select-wrap">-->
 <!--              <span class="icon icon-arrow_drop_down"></span>-->
@@ -84,7 +85,7 @@
 <!--              <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />-->
 <!--            </div>-->
 <!--          </div>-->
-        {{filter_form.form.as_p}}
+        {{filter_form.form|crispy}}
       <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
         <input type="submit" class="btn btn-primary btn-block form-control-same-height rounded-0" value="Search">
       </div>

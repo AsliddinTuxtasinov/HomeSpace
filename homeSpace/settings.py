@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # global apps
     'django_filters',
+    'crispy_forms',
 
     # local apps
     'users',
@@ -129,6 +130,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static',]
 
+# django-cripy-forms for forms
+CRISPY_TEMPLATE_PACK='bootstrap4'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -145,4 +149,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "tukhtasinovasliddin@gmail.com"
 EMAIL_HOST_PASSWORD = "asliddin1!@"
+
+
 

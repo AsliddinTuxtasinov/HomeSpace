@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {%  block title %}Edit Profile date page{% endblock %}
 {% block content %}
 <div class="container">
     <h2>Edit Profile</h2>
     <form method="post"> {% csrf_token %}
-        {{ form.as_p }}
-        {{form_agent.as_p}}
+        {{ form|crispy }}
+        {{form_agent|crispy}}
         <button type="submit">edit done</button>
     </form>
 </div>
