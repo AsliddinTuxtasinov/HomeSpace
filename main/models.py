@@ -96,6 +96,10 @@ class Posts(models.Model):
         kwargs = { 'slug': self.slug }
         return reverse('property-delete', kwargs=kwargs)
 
+    def get_absolute_url_comment(self):
+        kwargs = { 'slug': self.slug }
+        return reverse('main:comment', kwargs=kwargs)
+
     def get_contact_with_agent_url(self):
         kwargs = { 'slug': self.slug }
         return reverse('main:contact', kwargs=kwargs)
@@ -131,10 +135,14 @@ class SubscribeEmail(models.Model):
     def __str__(self):
         return f"{self.email} was subscrbied at {self.created_at}"
 
-# class PostComment(models.Model):
-#     Full_name=models.CharField("your full name:", max_length=255)
-#     comment_owner = models.ForeignKey(User, on_delete=models.CASCADE)
-#     comment = models.TextField("your comment:")
+class PostComment(models.Model):
+    comment = models.TextField("your comment:")
+    created_on = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(Posts,on_delete=models.CASCADE)
+    author = models.ForeignKey(User,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.post.title} | {self.author} | comment"
 
 
 

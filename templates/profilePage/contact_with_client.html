@@ -1,16 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 {%  block title %}Contact client{% endblock %}
+{%  block css %}
+<link rel="stylesheet" href="{% static 'css/user-page-agent.css' %}">
+{% endblock %}
 {% block content %}
-<ul>
-    {% for contact in contacts %}
-        <li>
-            {{contact.post}}
-            {{contact.agent}}
-            {{contact.name}}
-            {{contact.email}}
-            {{contact.number}}
-        </li>
-    {% endfor %}
-</ul>
+<div class="container page-section">
+    <ul class="card">
+        {% for contact in contacts %}
+            <li class="card card-part">
+                <strong>{{contact.name}}</strong><br>
+                <i><a href="{{contact.post.get_absolute_url}}">{{contact.post}}</i></a><br>
+                shu e'longa qiziqish bildiryapti, siz u bilan quydagi:
+                <ul class="contact-client">
+                    <li><a href="mailto:{{contact.email}}">{{contact.email}}</a> email</li>
+                    <li><a href="tel:{{contact.number}}">{{contact.number}}</a> telefon no'meri</li>
+                </ul>
+                orqali bo'glanishingiz mumkin!
+                <a href="#" class="btn btn-danger">o'chirish</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="site-section site-section-sm bg-light">
+    <div class="container">
+      {% include 'pagination.html' %}
+    </div>
+</div>
 {% endblock %}

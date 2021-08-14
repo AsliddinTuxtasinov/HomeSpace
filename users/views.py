@@ -8,7 +8,8 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 from .forms import CostumeUserCreateForm, CostumeUserChangeForm, PostCreateForm, PostChageForm,AgentsEditForm,AgentPostChageForm
-from main.models import Posts,Districts,ContactWithAgent,SubscribeEmail
+from main.forms import PostCommentForm
+from main.models import Posts,Districts,ContactWithAgent,SubscribeEmail,PostComment
 from .models import Agents
 
 # =============================== post views =============================== #
@@ -74,6 +75,34 @@ class PostCreateView(LoginRequiredMixin,CreateView):
         context["is_create_post"]=True
         return context
 
+# Post comment create
+# class PostCommentView(CreateView):
+#     # model = PostComment
+#     queryset = Posts
+#     form_class = PostCommentForm
+#     # template_name = 'property-details.html'
+#
+#
+#     def get_object(self, queryset=None):
+#         queryset = self.queryset
+#         slug = self.kwargs.get(self.slug_url_kwarg)
+#         # queryset = queryset.filter(pk=pk)
+#         obj = queryset.get(**{slug_field: slug})
+#         # obj = queryset.get()
+#         return obj
+#
+#     def post(self, request, *args, **kwargs):
+#         form=self.form_class(data=request.POST)
+#         if form.is_valid():
+#             qs=form.save(commit=False)
+#             qs.author=self.request.user
+#             qs.post = self.get_object()
+#             qs.save()
+#             messages.success(request,"muofuqiyatli comment qoldirdingiz")
+#             return redirect(self.request.path)
+#         messages.error(request, "iltimos boshqattan urinib ko'ring")
+#         return redirect(self.request.path)
+
 # AJAX
 def load_cities(request):
     region_id = request.GET.get('region_id')
@@ -111,8 +140,8 @@ class ContactWithClientView(LoginRequiredMixin,ListView):
     model = ContactWithAgent
     context_object_name = 'contacts'
     template_name = 'profilePage/contact_with_client.html'
-    paginate_by = 6
-    paginate_orphans = 3
+    paginate_by = 4
+
 
     def get_queryset(self):
         client = self.request.user
@@ -184,3 +213,10 @@ class UserPageView(LoginRequiredMixin,ListView):
         else:
             queryset = self.model._default_manager.filter(owner=client)
         return queryset
+    
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        client = self.request.user
+        if client.is_agent:
+            context['contact_with_cilent_count']=len(ContactWithAgent.objects.filter(agent__agent=client))
+        return context

@@ -11,13 +11,18 @@
         <div class="content-header">
             {% if user.is_agent %}
                 <h1>Welcome agent {{user.username}}!</h1>
-                <ul>
-                    <li><a href="{% url 'contact-with-client' %}">contact wiht clients</a></li>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'contact-with-client' %}">contact wiht clients</a>
+                        <span class="badge bg-primary rounded-pill">{{contact_with_cilent_count}}</span>
+                    </li>
                 </ul>
             {% else %}
                 <h1>Welcome {{user.username}}!</h1>
-                <ul>
-                    <li><a href="{% url 'create_post' %}">Add anouncment</a></li>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'create_post' %}">E'lon berish</a>
+                    </li>
                 </ul>
             {% endif %}
         </div>

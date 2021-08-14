@@ -1,85 +1,92 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {%  block title %}HomeSpace - Welcome{% endblock %}
 {% block content %}
+{% for msg in messages %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{msg}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  </div>
+{% endfor %}
 
     {% include 'main-posts.html' %}
     {% include 'main-search.html' %}
 
-<div class="site-section site-section-sm bg-light" xmlns:input="http://www.w3.org/1999/html">
-      <div class="container">
+<div class="site-section site-section-sm bg-light">
+    <div class="container">
 
-        <div class="row mb-5">
-          <div class="col-12">
-            <div class="site-section-title">
-              <h2>New Properties for You</h2>
-            </div>
-          </div>
-        </div>
-
-        {% include 'posts.html' %}
-        {% include 'pagination.html' %}
-
-      </div>
-    </div>
-
-    <div class="site-section">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-md-7 text-center mb-5">
-            <div class="site-section-title">
-              <h2>Our Services</h2>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 col-lg-4 mb-4">
-            <a href="#" class="service text-center border rounded">
-              <span class="icon flaticon-house"></span>
-              <h2 class="service-heading">Research Subburbs</h2>
-              <p><span class="read-more">Learn More</span></p>
-            </a>
-          </div>
-          <div class="col-md-6 col-lg-4 mb-4">
-            <a href="#" class="service text-center border rounded">
-              <span class="icon flaticon-sold"></span>
-              <h2 class="service-heading">Sold Houses</h2>
-              <p><span class="read-more">Learn More</span></p>
-            </a>
-          </div>
-          <div class="col-md-6 col-lg-4 mb-4">
-            <a href="#" class="service text-center border rounded">
-              <span class="icon flaticon-camera"></span>
-              <h2 class="service-heading">Security Priority</h2>
-              <p><span class="read-more">Learn More</span></p>
-            </a>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-4">
-            <a href="#" class="service text-center border rounded">
-              <span class="icon flaticon-house"></span>
-              <h2 class="service-heading">Research Subburbs</h2>
-              <p><span class="read-more">Learn More</span></p>
-            </a>
-          </div>
-          <div class="col-md-6 col-lg-4 mb-4">
-            <a href="#" class="service text-center border rounded">
-              <span class="icon flaticon-sold"></span>
-              <h2 class="service-heading">Sold Houses</h2>
-              <p><span class="read-more">Learn More</span></p>
-            </a>
-          </div>
-          <div class="col-md-6 col-lg-4 mb-4">
-            <a href="#" class="service text-center border rounded">
-              <span class="icon flaticon-camera"></span>
-              <h2 class="service-heading">Security Priority</h2>
-              <p><span class="read-more">Learn More</span></p>
-            </a>
+      <div class="row mb-5">
+        <div class="col-12">
+          <div class="site-section-title">
+            <h2>New Properties for You</h2>
           </div>
         </div>
       </div>
+
+      {% include 'posts.html' %}
+      {% include 'pagination.html' %}
+
     </div>
+</div>
+
+<div class="site-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7 text-center mb-5">
+        <div class="site-section-title">
+          <h2>Our Services</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="#" class="service text-center border rounded">
+          <span class="icon flaticon-house"></span>
+          <h2 class="service-heading">Research Subburbs</h2>
+          <p><span class="read-more">Learn More</span></p>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="#" class="service text-center border rounded">
+          <span class="icon flaticon-sold"></span>
+          <h2 class="service-heading">Sold Houses</h2>
+          <p><span class="read-more">Learn More</span></p>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="#" class="service text-center border rounded">
+          <span class="icon flaticon-camera"></span>
+          <h2 class="service-heading">Security Priority</h2>
+          <p><span class="read-more">Learn More</span></p>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="#" class="service text-center border rounded">
+          <span class="icon flaticon-house"></span>
+          <h2 class="service-heading">Research Subburbs</h2>
+          <p><span class="read-more">Learn More</span></p>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="#" class="service text-center border rounded">
+          <span class="icon flaticon-sold"></span>
+          <h2 class="service-heading">Sold Houses</h2>
+          <p><span class="read-more">Learn More</span></p>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="#" class="service text-center border rounded">
+          <span class="icon flaticon-camera"></span>
+          <h2 class="service-heading">Security Priority</h2>
+          <p><span class="read-more">Learn More</span></p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 
     <div class="site-section">
@@ -119,11 +126,6 @@
 
     <div class="site-section site-section-sm bg-primary">
       <div class="container">
-        {% for msg in messages %}
-          <div class="alert alert-success">
-            {{msg}}
-          </div>
-        {% endfor %}
         <div class="row align-items-center">
           <div class="col-md-8">
             <h2 class="text-white">Eng so'ngi e'lonlardan habardor bo'lish uchun bizga obuna bo'ling!</h2>
@@ -132,7 +134,7 @@
           <div class="col-md-4 text-center">
             <form action="{% url 'main:subscribe' %}" method="post">
               {% csrf_token %}
-              {{subsribe_form}}
+              {{subsribe_form|crispy}}
               <input type="submit" class="btn btn-outline-primary btn-block py-3 btn-lg" value="obuna bo'lish">
             </form>
           </div>

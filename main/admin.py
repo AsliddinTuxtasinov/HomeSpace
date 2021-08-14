@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Posts,Regions,Districts,ContactWithAgent,SubscribeEmail
+from .models import Posts,Regions,Districts,ContactWithAgent,SubscribeEmail,PostComment
 
 @admin.register(Posts)
 class PostAdmin(admin.ModelAdmin):
@@ -27,3 +27,7 @@ class ContactWithAgentAdmin(admin.ModelAdmin):
 class SubscribeEmailAdmin(admin.ModelAdmin):
     # list_display = ('post','agent','name','number')
     ordering = ['-created_at']
+
+@admin.register(PostComment)
+class PostCommentAdmin(admin.ModelAdmin):
+    pass

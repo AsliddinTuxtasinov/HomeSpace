@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.urls.base import reverse,reverse_lazy
 from django.http import Http404
 
 from django.views.generic.base import TemplateView
@@ -7,10 +8,10 @@ from django.views.generic.base import View
 
 from django.contrib import messages
 from django.core.mail import send_mail
-# from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Posts,SubscribeEmail
-from .forms import ContactWithAgentForm,FilterHomeForm,SubscribeForm
+from .models import Posts,SubscribeEmail,PostComment
+from .forms import ContactWithAgentForm,FilterHomeForm,SubscribeForm,PostCommentForm
 
 class HomePageView(ListView):
     # model = Posts
@@ -140,12 +141,34 @@ class DetailPageView(DetailView):
         # context['main_page'] = False
         context['posts'] = self.model.objects.all()[0:3]
         context['contact_with_agent_form'] = ContactWithAgentForm
+        context['post_commentform'] = PostCommentForm
+        context['comments'] = PostComment.objects.filter(post=self.object)
 
         if agent or owner:
             context['is_author_or_agent']=True
         else:
             context['is_author_or_agent'] = False
         return context
+
+# Post comment create
+class PostCommentView(LoginRequiredMixin,View):
+    form_class = PostCommentForm
+
+    def post(self, request,slug, *args, **kwargs):
+        form = self.form_class(data=request.POST)
+        if form.is_valid():
+            qs = form.save(commit=False)
+            qs.author = request.user
+            post=Posts.objects.get(slug=slug)
+            print(slug)
+            print(reverse('main:property', kwargs={'slug': slug}))
+            qs.post = post
+            qs.save()
+            messages.success(request, "muofuqiyatli comment qoldirdingiz")
+            # return reverse('main:property', args=[slug])
+            return redirect(reverse('main:property', args=[slug]))
+        messages.error(request, "iltimos boshqattan urinib ko'ring")
+        return redirect(reverse('main:property', kwargs={'slug': slug}))
 
 # class ContactWithAgentView(CreateView):
 #     # model = Posts
