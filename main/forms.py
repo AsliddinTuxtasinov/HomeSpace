@@ -1,6 +1,8 @@
 from django import forms
 from django_filters import FilterSet,NumberFilter
-from .models import ContactWithAgent,SubscribeEmail,Posts,PostComment
+
+from .models import ContactWithAgent,SubscribeEmail
+from announcement.models import Posts,PostComment
 
 
 
@@ -35,13 +37,3 @@ class SubscribeForm(forms.ModelForm):
     class Meta:
         model=SubscribeEmail
         fields=['email',]
-
-
-class PostCommentForm(forms.ModelForm):
-    comment = forms.CharField(
-        label='',
-        widget=forms.Textarea(attrs={'rows': '3','placeholder': 'Say Something...'}) )
-
-    class Meta:
-        model = PostComment
-        fields = ['comment']

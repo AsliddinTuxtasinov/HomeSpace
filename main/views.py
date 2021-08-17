@@ -3,15 +3,15 @@ from django.urls.base import reverse,reverse_lazy
 from django.http import Http404
 
 from django.views.generic.base import TemplateView
-from django.views.generic import ListView, DetailView,CreateView,DeleteView
+from django.views.generic import ListView,CreateView, DetailView,DeleteView
 from django.views.generic.base import View
 
 from django.contrib import messages
 from django.core.mail import send_mail
-from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Posts,SubscribeEmail,PostComment,ContactWithAgent
-from .forms import ContactWithAgentForm,FilterHomeForm,SubscribeForm,PostCommentForm
+from announcement.models import Posts
+from .forms import FilterHomeForm,SubscribeForm,ContactWithAgentForm
+
 
 class HomePageView(ListView):
     # model = Posts
@@ -42,6 +42,7 @@ class HomePageView(ListView):
         context['region_page'] = ''.join([ f"region={x}&"for x in self.request.GET.getlist('region') ])
         context['district_page'] = ''.join([ f"district={x}&"for x in self.request.GET.getlist('district') ])
         return context
+
 
 class SubscribeView(CreateView):
     queryset = Posts
@@ -79,7 +80,9 @@ class SubscribeView(CreateView):
         messages.error(request, "Mufaqqiyatli obuna bo'linmadi iltimos tekshirib qayta urinib ko'ring !")
         return redirect('/')
 
-class PropertiesPageView(ListView):
+
+
+class AnnouncmentPageView(ListView):
     # model=Posts
     queryset = Posts.objects.all()
     context_object_name = 'posts'
@@ -106,6 +109,7 @@ class PropertiesPageView(ListView):
         context['district_page'] = ''.join([f"district={x}&" for x in self.request.GET.getlist('district')])
         return context
 
+
 class AboutPageView(TemplateView):
     template_name = 'about.html'
 
@@ -114,6 +118,7 @@ class AboutPageView(TemplateView):
         context['testers'] = [i for i in range(9)]
         context['leaders'] = [200,300,400,400,200,300]
         return context
+
 
 class ContactPageView(TemplateView):
     template_name = 'contact.html'
@@ -124,87 +129,6 @@ class ContactPageView(TemplateView):
         # context['leaders'] = [200,300,400,400,200,300]
         return context
 
-class DetailPageView(DetailView):
-    model = Posts
-    context_object_name = 'post'
-    template_name = 'property-details.html'
-
-    def get_context_data(self, *args, **kwargs):
-        client=self.request.user
-        agent=False
-        if client.is_authenticated:
-            agent=client.is_agent
-        owner = self.object.owner == client
-
-        context = super().get_context_data()
-
-        context['detail_pic'] = [i for i in range(3)]
-        # context['main_page'] = False
-        context['posts'] = self.model.objects.all()[0:3]
-        context['contact_with_agent_form'] = ContactWithAgentForm
-        context['post_commentform'] = PostCommentForm
-        context['comments'] = PostComment.objects.filter(post=self.object)
-
-        context['is_author_or_agent'] = True if agent or owner else False
-        # if agent or owner:
-        #     context['is_author_or_agent']=True
-        # else:
-        #     context['is_author_or_agent'] = False
-        return context
-
-# Post comment create
-class PostCommentView(LoginRequiredMixin,View):
-    form_class = PostCommentForm
-
-    def post(self, request,slug, *args, **kwargs):
-        post = get_object_or_404(Posts,slug=slug)
-        # post = Posts.objects.get(slug=slug)
-        form = self.form_class(data=request.POST)
-
-
-        if form.is_valid():
-            reply_obj = None
-            try:
-                reply_id=int(request.POST.get('parent_id'))
-            except:
-                reply_id=None
-
-            if reply_id:
-                reply_obj=get_object_or_404(PostComment,id=reply_id)
-
-            qs = form.save(commit=False)
-            qs.author = request.user
-            qs.post = post
-            if reply_obj: qs.parent=reply_obj
-            qs.save()
-            messages.success(request, "muofuqiyatli comment qoldirdingiz")
-            return redirect(post.get_absolute_url())
-
-        messages.error(request, "iltimos boshqattan urinib ko'ring")
-        return redirect(reverse('main:property', kwargs={'slug': slug}))
-
-# class ContactWithAgentView(CreateView):
-#     # model = Posts
-#     form_class = ContactWithAgentForm
-#     template_name = 'property-details.html'
-#
-#     def get_queryset(self,slug):
-#         queryset = Posts.objects.get(slug=slug)
-#         # print(queryset)
-#         # print("====",self.slug_field)
-#         return queryset
-#
-#     def form_valid(self, form):
-#         # post=self.model. # Posts.objects.get(slug=self.slug_field)
-#         self.object = form.save(commit=False)
-#         form.instance.post = self.model
-#         form.instance.agent = self.model.diller
-#         return super().form_valid(form)
-#
-#     def get_success_url(self):
-#         # kwargs = {'slug': self.slug_field}
-#         # return reverse('main:property', kwargs=kwargs)
-#         return self.model
 
 class ContactWithAgentView(View):
     model = Posts
@@ -230,21 +154,3 @@ class ContactWithAgentView(View):
             return redirect(post.get_absolute_url())
         messages.error(request, "iltimos boshqattan urinib ko'ring bazi xotolar aniqlandi!")
         return redirect(post.get_absolute_url())
-
-
-class ContactWithAgentDeleteView(LoginRequiredMixin,DeleteView):
-    model = ContactWithAgent
-    template_name = 'profilePage/contact_with_client_delete.html'
-    success_url = reverse_lazy('contact-with-client-page')
-    context_object_name = 'contact_client'
-
-
-
-# class BlogPageView(TemplateView):
-#     template_name = 'blog.html'
-#
-#     def get_context_data(self, *args, **kwargs):
-#         context = super().get_context_data()
-#         context['objs'] = [i for i in range(9)]
-#         context['our_blog'] = [i for i in range(6)]
-#         return context
