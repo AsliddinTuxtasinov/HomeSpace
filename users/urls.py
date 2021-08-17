@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('user_page/', UserPageView.as_view(), name='user_page'),
     path('create_post/', PostCreateView.as_view(), name='create_post'),
-    path('contact-with-client/', ContactWithClientView.as_view(), name='contact-with-client'), # contqct with client
+    path('contact-with-client/', ContactWithClientView.as_view(), name='contact-with-client-page'), # contqct with client
     path('property/<slug:slug>/edit', PostChageView.as_view(), name='property-edit'),
     path('property/<slug:slug>/delete', PostDeleteView.as_view(), name='property-delete'),
 

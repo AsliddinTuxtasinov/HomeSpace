@@ -18,7 +18,8 @@
         <p class="mb-5"><strong class="h2 text-success font-weight-bold">$1,000,500</strong></p>
         {% if user.is_authenticated %}
           {% if is_author_or_agent %}
-            <a href="{{post.get_absolute_url_edit}}">Edit</a> | <a href="{{post.get_absolute_url_delete}}">Delete</a>
+            <a href="{{post.get_absolute_url_edit}}">Edit</a> |
+            <a href="{{post.get_absolute_url_delete}}">Delete</a>
           {% endif %}
         {% endif %}
       </div>
@@ -164,11 +165,40 @@
 
 <div class="container mb-5">
   {% if comments %}
+    <div class="ml-1">
+        <h5>Qoldirilgan sharhlar:</h5>
+    </div>
     {% for cmt in comments %}
-    <div class="text-left border-bottom border-top py-3">
+    <div class="text-left border-bottom border-top py-2 px-2 mb-1 card">
       <span class="d-inline-block text-black mb-0 ml-1"><strong>{{ cmt.author }}</strong> {{ cmt.created_on }}</span>
       <p class="ml-4" text-aligin="justifay">{{ cmt.comment }}</p>
+      {% if user.is_authenticated %}
+        <details>
+          <summary><span class="btn btn-light">reply</span></summary>
+          <div class="ml-5">
+            <h5>Replay</h5>
+            <form action="{{post.get_absolute_url_comment}}" method="post" >
+                {% csrf_token %}
+                {{ post_commentform|crispy }}
+                <!-- Hidden input for parent comment.id -->
+                <input type="hidden" name="parent_id" value="{{ cmt.id }}">
+                <input class="btn btn-primary" type="submit" value="add replay">
+            </form>
+          </div>
+        </details>
+      {% endif %}
+
+        {% for reply in cmt.replies.all %}
+          <div class="text-left mt-0 ml-5">
+            <span class="d-inline-block text-black mb-0 ml-1"><strong>{{ reply.author }}</strong> {{ reply.created_on }}</span>
+            <p class="ml-4" text-aligin="justifay">{{ reply.comment }}</p>
+          </div>
+        {% endfor %}
+
+
+
     </div>
+
     {% endfor %}
   {% else %}
     <div class="text-left border-bottom border-top py-3">
@@ -189,7 +219,7 @@
         {% csrf_token %}
         {{ post_commentform|crispy }}
         <div class="d-grid gap-2">
-            <button class="btn btn-success mt-3">jo'natish</button>
+            <button class="btn btn-primary">sharh qoldirish</button>
         </div>
     </form>
   </div>

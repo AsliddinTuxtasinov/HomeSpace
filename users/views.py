@@ -7,7 +7,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-from .forms import CostumeUserCreateForm, CostumeUserChangeForm, PostCreateForm, PostChageForm,AgentsEditForm,AgentPostChageForm
+from .forms import (
+    CostumeUserCreateForm, CostumeUserChangeForm,PostCreateForm,
+    PostChageForm,AgentsEditForm,AgentPostChageForm
+)
+
 from main.forms import PostCommentForm
 from main.models import Posts,Districts,ContactWithAgent,SubscribeEmail,PostComment
 from .models import Agents
@@ -142,7 +146,6 @@ class ContactWithClientView(LoginRequiredMixin,ListView):
     template_name = 'profilePage/contact_with_client.html'
     paginate_by = 4
 
-
     def get_queryset(self):
         client = self.request.user
         if client.is_authenticated:
@@ -186,15 +189,6 @@ class UserEditView(View):
             context['form_agent'] = None
         context['form']=form
         return render(request, self.template_name, context)
-
-# class UserEditView(UpdateView):
-#     form_class = CostumeUserChangeForm
-#     template_name = 'profilePage/edit_profile.html'
-#     success_url = reverse_lazy('index')
-#
-#     def get_object(self):
-#         return self.request.user
-
 
 
 # user page view

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{%  block title %}HomeSpace - remove contct info page{% endblock %}
+{% block content %}
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            <h2>Siz rostdan ham bergan "{{contact_client.name}}"  o'chirmoqchimisiz?</h2>
+            <button type="submit">o'chrish</button>
+            <a href="{% url 'contact-with-client-page' %}"><button type="button">ortga qaytish</button></a>
+        </form>
+    </div>
+{% endblock %}

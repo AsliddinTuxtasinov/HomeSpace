@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     HomePageView,SubscribeView,AboutPageView,ContactPageView,# BlogPageView,
-    PropertiesPageView,DetailPageView,PostCommentView,ContactWithAgentView
+    PropertiesPageView,DetailPageView,PostCommentView,ContactWithAgentView,ContactWithAgentDeleteView
 )
 
 app_name='main'
@@ -17,4 +17,5 @@ urlpatterns = [
     path('property/<slug:slug>/', DetailPageView.as_view(), name='property'),
     path('comment/<slug:slug>/', PostCommentView.as_view(), name='comment'),
     path('contact-with-agent/<slug:slug>/', ContactWithAgentView.as_view(), name='contact'),
+    path('contact-with-agent-delete/<int:pk>/', ContactWithAgentDeleteView.as_view(), name='contact_delete'),
 ]

@@ -17,7 +17,7 @@
                     <li><a href="tel:{{contact.number}}">{{contact.number}}</a> telefon no'meri</li>
                 </ul>
                 orqali bo'glanishingiz mumkin!
-                <a href="#" class="btn btn-danger">o'chirish</a>
+                <a href="{{contact.get_absolute_url_delete}}" class="btn btn-danger">o'chirish</a>
             </li>
         {% endfor %}
     </ul>
@@ -27,4 +27,8 @@
       {% include 'pagination.html' %}
     </div>
 </div>
+{% endblock %}
+{%  block js %}
+<script>
+
 {% endblock %}

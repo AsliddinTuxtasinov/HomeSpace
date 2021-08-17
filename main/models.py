@@ -120,8 +120,13 @@ class ContactWithAgent(models.Model):
     number= models.CharField(max_length=50,blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def get_absolute_url_delete(self):
+        kwargs = { 'pk': self.id }
+        return reverse('main:contact_delete', kwargs=kwargs)
+
     def __str__(self):
         return f"{self.post}|{self.name}|{self.number}"
+
 
     class Meta:
         ordering = ['-created_at']
@@ -137,12 +142,14 @@ class SubscribeEmail(models.Model):
 
 class PostComment(models.Model):
     comment = models.TextField("your comment:")
-    created_on = models.DateTimeField(auto_now_add=True)
+    parent = models.ForeignKey('self', null=True, related_name='replies',on_delete=models.CASCADE)
     post = models.ForeignKey(Posts,on_delete=models.CASCADE)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.post.title} | {self.author} | comment"
+
 
 
 
