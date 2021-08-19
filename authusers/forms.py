@@ -13,7 +13,7 @@ class CostumeUserCreateForm(UserCreationForm):
 class CostumeUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ('first_name','last_name','email','telefon_number')
+        fields = ('first_name','last_name','email')
 
 class AgentsEditForm(ModelForm):
     class Meta:

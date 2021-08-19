@@ -169,7 +169,6 @@
         <h5>Qoldirilgan sharhlar:</h5>
     </div>
     {% for cmt in comments %}
-      {% if cmt.parent is None %}
         <div class="text-left border-bottom border-top py-2 px-2 mb-1 card">
           <span class="d-inline-block text-black mb-0 ml-1"><strong>{{ cmt.author }}</strong> {{ cmt.created_on }}</span>
           <p class="ml-4" text-aligin="justifay">{{ cmt.comment }}</p>
@@ -195,7 +194,6 @@
             </div>
           {% endfor %}
         </div>
-      {% endif %}
     {% endfor %}
   {% else %}
     <div class="text-left border-bottom border-top py-3">

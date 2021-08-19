@@ -15,7 +15,7 @@ class FilterHomeForm(FilterSet):
 
     class Meta:
         model=Posts
-        fields=('region','district',)
+        fields=('region','district','home_type','type')
 
 
 class ContactWithAgentForm(forms.ModelForm):

@@ -1,13 +1,15 @@
 from django.db import models
+# from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
+
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils.text import slugify
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
 from authusers.models import Agents
 
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.utils.text import slugify
 
 
 class Regions(models.Model):
@@ -34,48 +36,42 @@ class Districts(models.Model):
 
 
 class Posts(models.Model):
-    # resturant = 'resturant'
-    # market    = 'market'
-    # float     = 'float'
-    # hovli     = 'hovli'  # to'girlab ketiladi inglizchaga
-    # type = [
-    #     (resturant, 'resturant'),
-    #     (market,'market'),
-    #     (float, 'float'),
-    #     (hovli, 'hovli')
-    # ]
-    # sale = 'sale'
-    # rent = 'rent'
-    # type_status = [
-    #     (sale,'sale'),
-    #     (rent,'rent')
-    # ]
-    title       = models.CharField(max_length=255,unique=True)
-    # full_adress = models.CharField('full adress',max_length=255)
-    # home_type   = models.CharField(max_length=20, choices=type)
-    price       = models.FloatField('price', default=0, blank=True,validators=[MinValueValidator(0)])
-    year_build  = models.IntegerField(default=0,blank=True,validators=[MinValueValidator(0)])
-    # more_info   = models.TextField('more info')
-    # area        = models.FloatField('area')
-    # picture     = models.ImageField(upload_to=f"anouncment/{self.title}/posts")
-    # picture2    = models.ImageField(upload_to=f"anouncment/{self.title}/posts", blank=True,null=True)
-    # picture3    = models.ImageField(upload_to=f"anouncment/{self.title}/posts",blank=True,null=True)
-    # beds        = models.IntegerField('badroom',validators=[MinValueValidator(1), MaxValueValidator(5)])
-    # baths       = models.IntegerField('batheroom',validators=[MinValueValidator(1), MaxValueValidator(5)])
-    # baths = models.IntegerField('garages', validators=[MinValueValidator(0), MaxValueValidator(5)])
-    # property_status = models.CharField(max_length=20,choices=type_status)
-    # tel_num = models.CharField("telefon number:",max_length=150)
-    region        = models.ForeignKey(Regions,on_delete=models.CASCADE,null=True)#default='somewhere in uzbesistan')
-    district      = models.ForeignKey(Districts,on_delete=models.CASCADE,null=True)#default='somewhere in uzbesistan')
-    adress        = models.CharField(max_length=255,null=True)
-    diller        = models.ForeignKey(Agents,on_delete=models.SET_NULL,null=True)
-    created_at    = models.DateTimeField(auto_now_add=True)
+    resturant='resturant'; market='market'; float='float'; yard='yard'
+    type = [ (resturant, 'resturant'),(market,'market'),(float, 'float'),(yard, 'yard') ]
+
+    sale = 'buy'; rent = 'rent'
+    type_status = [ (sale, 'Buy'),(rent, 'Rent') ]
+
+    title      = models.CharField(max_length=255,unique=True)
+    home_type  = models.CharField(max_length=20, choices=type, default=type[2][0])
+    type = models.CharField(max_length=20, choices=type_status, default=type_status[0][0])
+    price      = models.FloatField('price ($)', default=0, blank=True,validators=[MinValueValidator(0)])
+    year_build = models.PositiveIntegerField(default=0,blank=True,validators=[MinValueValidator(0)])
+    more_info  = models.TextField('more info',default="more info ...")
+    area       = models.FloatField('area (m.kv)',default=1)
+    picture = models.ImageField(
+        upload_to=f"announcement/%Y/%m/%d/%H/announcement")
+    picture2   = models.ImageField(
+        upload_to=f"announcement/%Y/%m/%d/%H/announcement", blank=True,null=True)
+    picture3   = models.ImageField(
+        upload_to=f"announcement/%Y/%m/%d/%H/announcement",blank=True,null=True)
+    beds = models.IntegerField(
+        'badroom',validators=[MinValueValidator(1), MaxValueValidator(5)],default=1)
+    baths = models.IntegerField(
+        'batheroom',validators=[MinValueValidator(1), MaxValueValidator(5)],default=1)
+    garages = models.IntegerField(
+        'garages',validators=[MinValueValidator(0), MaxValueValidator(5)],default=1)
+    tel_num = models.CharField("telefon number:",max_length=40,default="+998")
+    region     = models.ForeignKey(Regions,on_delete=models.CASCADE)
+    district   = models.ForeignKey(Districts,on_delete=models.CASCADE)
+    adress     = models.CharField(max_length=255,null=True)
+    diller     = models.ForeignKey(Agents,on_delete=models.SET_NULL,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=255, db_index=True,blank=True)
 
     owner      = models.ForeignKey(User, on_delete=models.CASCADE)
     is_publish = models.BooleanField(default=False)
     is_send_mail = models.BooleanField(default=False)
-
 
 
     def save(self, *args, **kwargs):

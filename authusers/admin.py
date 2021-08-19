@@ -12,11 +12,11 @@ class CostumUserAdmin(UserAdmin):
     add_form = CostumeUserCreateForm
     form = CostumeUserChangeForm
     model = CustomUser
-    list_display = ('username', 'email', 'first_name', 'last_name', 'telefon_number' ,'is_staff','is_agent')
+    list_display = ('username', 'email', 'first_name', 'last_name','is_staff','is_agent')
 
     fieldsets = UserAdmin.fieldsets + (
         (None, {
-            'fields': ('telefon_number', 'agent_info','telegram'),
+            'fields': ('agent_info','telegram'),
         }),
         (_('Permissions'), {
             'fields': ('is_agent',),

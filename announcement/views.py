@@ -94,7 +94,7 @@ class DetailPageView(DetailView):
         context['posts'] = self.model.objects.all()[0:3]
         context['contact_with_agent_form'] = ContactWithAgentForm
         context['post_commentform'] = PostCommentForm
-        context['comments'] = PostComment.objects.filter(post=self.object)
+        context['comments'] = PostComment.objects.filter(post=self.object,parent=None)
 
         context['is_author_or_agent'] = True if agent or owner else False
         # if agent or owner:

@@ -76,9 +76,8 @@
                   <li class="has-children">
                     <a href="{% url 'main:announcement' %}">Announcement</a>
                     <ul class="dropdown">
-                      <li><a href="#">Buy</a></li>
-                      <li><a href="#">Rent</a></li>
-                      <li><a href="#">Lease (as kredit)</a></li>
+                      <li><a href="{% url 'main:announcement' %}?type=buy">Buy</a></li>
+                      <li><a href="{% url 'main:announcement' %}?type=rent">Rent</a></li>
                     </ul>
                   </li>
 <!--                  <li><a href="#">Blog</a></li>-->

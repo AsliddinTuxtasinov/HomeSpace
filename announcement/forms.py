@@ -37,7 +37,7 @@ class AgentPostChageForm(forms.ModelForm):
 class PostCommentForm(forms.ModelForm):
     comment = forms.CharField(
         label='',
-        widget=forms.Textarea(attrs={'rows': '3','placeholder': 'Say Something...'}) )
+        widget=forms.Textarea(attrs={'rows': '2','placeholder': 'Say Something...'}) )
 
     class Meta:
         model = PostComment
