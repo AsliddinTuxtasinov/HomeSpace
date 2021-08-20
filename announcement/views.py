@@ -22,6 +22,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         form.instance.owner = self.request.user
+        self.object = form.save()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -80,27 +81,21 @@ class DetailPageView(DetailView):
     context_object_name = 'post'
     template_name = 'property-details.html'
 
-    def get_context_data(self, *args, **kwargs):
+    def get_context_data(self,*args, **kwargs):
+        obj=self.get_object()
         client=self.request.user
         agent=False
+
         if client.is_authenticated:
             agent=client.is_agent
         owner = self.object.owner == client
 
         context = super().get_context_data()
-
-        context['detail_pic'] = [i for i in range(3)]
-        # context['main_page'] = False
-        context['posts'] = self.model.objects.all()[0:3]
+        context['posts'] = self.model.objects.filter(region=obj.region,district=obj.district, created_at__gt=obj.created_at)[0:3]
         context['contact_with_agent_form'] = ContactWithAgentForm
         context['post_commentform'] = PostCommentForm
         context['comments'] = PostComment.objects.filter(post=self.object,parent=None)
-
         context['is_author_or_agent'] = True if agent or owner else False
-        # if agent or owner:
-        #     context['is_author_or_agent']=True
-        # else:
-        #     context['is_author_or_agent'] = False
         return context
 
 # AJAX

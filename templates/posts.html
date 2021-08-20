@@ -5,11 +5,11 @@
       <div class="col-md-6 col-lg-4 mb-4">
         <a href="{{ post.get_absolute_url }}" class="prop-entry d-block">
           <figure>
-            <img src="{% static 'images/img_1.jpg' %}" alt="Image" class="img-fluid">
+            <img src="{{post.picture.url}}" alt="{{post.title}}" class="img-fluid">
           </figure>
           <div class="prop-text">
             <div class="inner">
-              <span class="price rounded">$1,930,000</span>
+              <span class="price rounded">${{post.price}}</span>
               <h3 class="title">{{ post.title }}</h3>
               <h5 class="title">post owner: {{ post.owner }}</h5>
               <h6 style="color:white;">{{ post.region }} region, {{ post.district }} district</h6>
@@ -19,19 +19,19 @@
               <div class="inner d-flex">
                 <div class="col">
                   <span>Area:</span>
-                  <strong>240m<sup>2</sup></strong>
+                  <strong>{{post.area}}m<sup>2</sup></strong>
                 </div>
                 <div class="col">
                   <span>Beds:</span>
-                  <strong>2</strong>
+                  <strong>{{post.beds}}</strong>
                 </div>
                 <div class="col">
                   <span>Baths:</span>
-                  <strong>2</strong>
+                  <strong>{{post.baths}}</strong>
                 </div>
                 <div class="col">
                   <span>Garages:</span>
-                  <strong>1</strong>
+                  <strong>{{post.garages}}</strong>
                 </div>
               </div>
             </div>

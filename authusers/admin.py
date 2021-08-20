@@ -15,9 +15,10 @@ class CostumUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name','is_staff','is_agent')
 
     fieldsets = UserAdmin.fieldsets + (
-        (None, {
-            'fields': ('agent_info','telegram'),
-        }),
+        # (None, {
+        #     'fields': ('agent_info','telegram'),
+        # }),
+        
         (_('Permissions'), {
             'fields': ('is_agent',),
         }),
@@ -31,4 +32,4 @@ class CostumUserAdmin(UserAdmin):
 
 @admin.register(Agents)
 class AgentAdmin(admin.ModelAdmin):
-    pass
+    list_display=('agent','telefon_number','telegram')

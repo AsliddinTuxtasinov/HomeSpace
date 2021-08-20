@@ -41,7 +41,7 @@ class Posts(models.Model):
 
     sale = 'buy'; rent = 'rent'
     type_status = [ (sale, 'Buy'),(rent, 'Rent') ]
-
+    ### 
     title      = models.CharField(max_length=255,unique=True)
     home_type  = models.CharField(max_length=20, choices=type, default=type[2][0])
     type = models.CharField(max_length=20, choices=type_status, default=type_status[0][0])
@@ -55,11 +55,11 @@ class Posts(models.Model):
         upload_to=f"announcement/%Y/%m/%d/%H/announcement", blank=True,null=True)
     picture3   = models.ImageField(
         upload_to=f"announcement/%Y/%m/%d/%H/announcement",blank=True,null=True)
-    beds = models.IntegerField(
+    beds = models.PositiveIntegerField(
         'badroom',validators=[MinValueValidator(1), MaxValueValidator(5)],default=1)
-    baths = models.IntegerField(
+    baths = models.PositiveIntegerField(
         'batheroom',validators=[MinValueValidator(1), MaxValueValidator(5)],default=1)
-    garages = models.IntegerField(
+    garages = models.PositiveIntegerField(
         'garages',validators=[MinValueValidator(0), MaxValueValidator(5)],default=1)
     tel_num = models.CharField("telefon number:",max_length=40,default="+998")
     region     = models.ForeignKey(Regions,on_delete=models.CASCADE)

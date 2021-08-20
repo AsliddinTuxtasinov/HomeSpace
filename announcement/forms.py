@@ -6,7 +6,10 @@ from .models import Posts,Districts,PostComment
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Posts
-        fields = ('title','region','district','adress','diller')
+        fields = '__all__'
+        exclude=('slug','owner','is_publish','is_send_mail')
+        labels={ 'picture':'picture', 'picture2': 'picture-2', 'picture3': 'picture-3' }
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs)
@@ -23,6 +26,15 @@ class PostCreateForm(forms.ModelForm):
 
 
 class PostChageForm(forms.ModelForm):
+    picture = forms.ImageField(label='picture', required=True, widget=forms.FileInput(attrs={
+        'class': 'form-control-file'
+    }))
+    picture2 = forms.ImageField(label='picture-2',required=True ,widget=forms.FileInput(attrs={
+        'class': 'form-control-file'
+    }))
+    picture3 = forms.ImageField(label='picture-3',required=True, widget=forms.FileInput(attrs={
+        'class': 'form-control-file'
+    }))
     class Meta:
         model=Posts
         exclude = ('owner', 'slug', 'is_publish','is_send_mail')
@@ -32,6 +44,7 @@ class AgentPostChageForm(forms.ModelForm):
     class Meta:
         model=Posts
         exclude=('owner','slug','is_send_mail')
+        labels = {'picture': 'picture', 'picture2': 'picture-2', 'picture3': 'picture-3'}
 
 
 class PostCommentForm(forms.ModelForm):

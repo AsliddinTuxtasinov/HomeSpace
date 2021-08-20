@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 {%  block title %}HomeSpace - Crate post page{% endblock %}
 {% block content %}
-    <div class="container">
+    <div class="container card mt-5 mb-5 p-5">
         {% if is_create_post %}
             <h2>Crate post</h2>
         {% else %}
@@ -14,10 +14,15 @@
                 {{msg|crispy}}
             </div>
         {% endfor %}
-        <form method="post" id="postForm" data-cities-url="{% url 'ajax_load_cities' %}">
+        <form method="post" id="postForm" data-cities-url="{% url 'ajax_load_cities' %}" enctype="multipart/form-data" class="form-group">
             {% csrf_token %}
+            <!-- {% for forms in form %}
+                {{forms.label}}
+                {{forms}}
+                {{forms.errors}}
+            {% endfor %} -->
             {{ form|crispy }}
-            <button type="submit">{% if is_create_post %}Add Anouncment{% else %}Chage Anouncment{% endif %}</button>
+            <button type="submit" class="btn btn-success">{% if is_create_post %}Add Anouncment{% else %}Chage Anouncment{% endif %}</button>
         </form>
     </div>
 {% endblock %}

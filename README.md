@@ -1,5 +1,4 @@
 # HomeSpace
 **Note:** 
-`Filter -> 80% done`,
-`Agent's page-styles`,
+`Some issues`,
 **I must solve this main problems :|**

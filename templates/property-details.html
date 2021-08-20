@@ -14,8 +14,8 @@
     <div class="row align-items-center justify-content-center text-center">
       <div class="col-md-10">
         <span class="d-inline-block text-white px-3 mb-3 property-offer-type rounded">{{post.title}}</span>
-        <h1 class="mb-2">625 S. Berendo St</h1>
-        <p class="mb-5"><strong class="h2 text-success font-weight-bold">$1,000,500</strong></p>
+        <h1 class="mb-2">{{post.adress}}, {{post.district}} vil, {{post.region}} tum</h1>
+        <p class="mb-5"><strong class="h2 text-success font-weight-bold">${{post.price}}</strong></p>
         {% if user.is_authenticated %}
           {% if is_author_or_agent %}
             <a href="{{post.get_absolute_url_edit}}">Edit</a> |
@@ -35,66 +35,91 @@
 
         <div class="mb-5">
           <div class="slide-one-item home-slider owl-carousel">
-            <div><img src="{% static 'images/img_1.jpg' %}" alt="Image" class="img-fluid"></div>
-            <div><img src="{% static 'images/img_2.jpg' %}" alt="Image" class="img-fluid"></div>
-            <div><img src="{% static 'images/img_3.jpg' %}" alt="Image" class="img-fluid"></div>
+            <div><img src="{{post.picture.url}}" alt="Image" class="img-fluid"></div>
+            <div><img src="{{post.picture2.url}}" alt="Image" class="img-fluid"></div>
+            <div><img src="{{post.picture3.url}}" alt="Image" class="img-fluid"></div>
           </div>
         </div>
         <div class="bg-white">
           <div class="row mb-5">
             <div class="col-md-6">
-              <strong class="text-success h1 mb-3">$1,000,500</strong>
+              <strong class="text-success h1 mb-3">${{post.price}}</strong>
             </div>
             <div class="col-md-6">
               <ul class="property-specs-wrap mb-3 mb-lg-0  float-lg-right">
               <li>
                 <span class="property-specs">Beds</span>
-                <span class="property-specs-number">2 <sup>+</sup></span>
+                <span class="property-specs-number">{{post.beds}}</span>
 
               </li>
               <li>
                 <span class="property-specs">Baths</span>
-                <span class="property-specs-number">2</span>
+                <span class="property-specs-number">{{post.baths}}</span>
 
               </li>
               <li>
                 <span class="property-specs">SQ FT</span>
-                <span class="property-specs-number">7,000</span>
+                <span class="property-specs-number">${{post.price}}</span>
 
               </li>
             </ul>
             </div>
           </div>
 
-          <div class="row mb-5">
-            <div class="col-md-6 col-lg-4 text-left border-bottom border-top py-3">
+          <div class="row">
+            <div class="col-md-6 col-lg-3 text-left border-bottom border-top py-3">
               <span class="d-inline-block text-black mb-0 caption-text">Home Type</span>
-              <strong class="d-block">Condo</strong>
+              <strong class="d-block">{{post.home_type}}</strong>
             </div>
-            <div class="col-md-6 col-lg-4 text-left border-bottom border-top py-3">
+            <div class="col-md-6 col-lg-3 text-left border-bottom border-top py-3">
+              <span class="d-inline-block text-black mb-0 caption-text">Home Type</span>
+              <strong class="d-block">{{post.type}}</strong>
+            </div>
+            <div class="col-md-6 col-lg-3 text-left border-bottom border-top py-3">
               <span class="d-inline-block text-black mb-0 caption-text">Year Built</span>
-              <strong class="d-block">2018</strong>
+              <strong class="d-block">{{post.year_build}}</strong>
             </div>
-            <div class="col-md-6 col-lg-4 text-left border-bottom border-top py-3">
+            <div class="col-md-6 col-lg-3 text-left border-bottom border-top py-3">
               <span class="d-inline-block text-black mb-0 caption-text">Price/Sqft</span>
-              <strong class="d-block">$520</strong>
+              <strong class="d-block">${{post.price}}</strong>
             </div>
+          </div>
 
-<!--          contact-->
+          <!-- contact-->
+          <div class="row">
             <div class="col-md-6 col-lg-4 text-left border-bottom border-top py-3">
               <span class="d-inline-block text-black mb-0 caption-text">Agent's tel nomer</span>
-              <strong class="d-block"><a href="tel:+998901234567">+998901234567</a></strong>
+              <strong class="d-block"><a href="tel:{{post.diller.telefon_number}}">{{post.diller.telefon_number}}</a></strong>
             </div>
             <div class="col-md-6 col-lg-4 text-left border-bottom border-top py-3">
               <span class="d-inline-block text-black mb-0 caption-text">Agent's gmail</span>
-              <strong class="d-block"><a href="mailto:asliddin@gmail.com">email</a></strong>
+              <strong class="d-block"><a href="mailto:{{post.diller.agent.email}}">email</a></strong>
             </div>
             <div class="col-md-6 col-lg-4 text-left border-bottom border-top py-3">
               <span class="d-inline-block text-black mb-0 caption-text">Agent's telegram</span>
-              <strong class="d-block"><a href="#">telegram</a></strong>
+              <strong class="d-block"><a href="{{post.diller.telegram}}">telegram</a></strong>
             </div>
+          </div>
+          
+          {% if is_author_or_agent %}
+            <div class="row">
+              <div class="col-md-6 col-lg-4 text-left border-bottom border-top py-3">
+                <span class="d-inline-block text-black mb-0 caption-text">Owner's tel nomer</span>
+                <strong class="d-block"><a href="tel:{{post.diller.telefon_number}}">{{post.tel_num}}</a></strong>
+              </div>
+              <div class="col-md-6 col-lg-4 text-left border-bottom border-top py-3">
+                <span class="d-inline-block text-black mb-0 caption-text">Owner's gmail</span>
+                <strong class="d-block"><a href="mailto:{{post.owner.email}}">{{post.owner.email}}</a></strong>
+              </div>
+              <!-- <div class="col-md-6 col-lg-4 text-left border-bottom border-top py-3">
+                <span class="d-inline-block text-black mb-0 caption-text">Owner's telegram</span>
+                <strong class="d-block"><a href="#">telegram</a></strong>
+              </div> -->
+            </div>
+          {% endif %}
 
-<!--          adress -->
+          <!-- adress -->
+          <div class="row mb-5">
             <div class="col-md-6 col-lg-4 text-left border-bottom border-top py-3">
               <span class="d-inline-block text-black mb-0 caption-text">Region:</span>
               <strong class="d-block">{{post.region}}</strong>
@@ -111,19 +136,21 @@
 
 
           <h2 class="h4 text-black">More Info</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda aperiam perferendis deleniti vitae asperiores accusamus tempora facilis sapiente, quas! Quos asperiores alias fugiat sunt tempora molestias quo deserunt similique sequi.</p>
-          <p>Nisi voluptatum error ipsum repudiandae, autem deleniti, velit dolorem enim quaerat rerum incidunt sed, qui ducimus! Tempora architecto non, eligendi vitae dolorem laudantium dolore blanditiis assumenda in eos hic unde.</p>
-          <p>Voluptatum debitis cupiditate vero tempora error fugit aspernatur sint veniam laboriosam eaque eum, et hic odio quibusdam molestias corporis dicta! Beatae id magni, laudantium nulla iure ea sunt aliquam.</p>
+          <p>{{post.more_info|safe}}</p>
 
           <div class="row mt-5">
             <div class="col-12">
               <h2 class="h4 text-black mb-3">Property Gallery</h2>
             </div>
-            {% for pic in detail_pic %}
               <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                <a href="{% static 'images/img_1.jpg' %}" class="image-popup gal-item"><img src="{% static 'images/img_1.jpg' %}" alt="Image" class="img-fluid"></a>
+                <a href="{{post.picture.url}}" class="image-popup gal-item"><img src="{{post.picture.url}}" alt="Image" class="img-fluid"></a>
               </div>
-            {% endfor %}
+              <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                <a href="{{post.picture2.url}}" class="image-popup gal-item"><img src="{{post.picture2.url}}" alt="Image" class="img-fluid"></a>
+              </div>
+              <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                <a href="{{post.picture3.url}}" class="image-popup gal-item"><img src="{{post.picture3.url}}" alt="Image" class="img-fluid"></a>
+              </div>
           </div>
         </div>
 
@@ -151,8 +178,8 @@
         </div>
 
         <div class="bg-white widget border rounded">
-          <h3 class="h4 text-black widget-title mb-3">Paragraph</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit qui explicabo, libero nam, saepe eligendi. Molestias maiores illum error rerum. Exercitationem ullam saepe, minus, reiciendis ducimus quis. Illo, quisquam, veritatis.</p>
+          <h3 class="h4 text-black widget-title mb-3">Agent bilan bog'lanish</h3>
+          <p>Agar siz bu e'lon ga qiziqish bildirayotgan bolsangiz adminlarimiz siz bilan bog'lanishi uchun quydagi formani to'ldirib bizga jonating va agentlarimizdan biri siz bilan bog'lanadi!</p>
         </div>
 
       </div>
@@ -161,8 +188,8 @@
     </div>
   </div>
 </div>
-<!--comments-->
 
+<!--comments-->
 <div class="container mb-5">
   {% if comments %}
     <div class="ml-1">
@@ -226,7 +253,7 @@
     <div class="row">
       <div class="col-12">
         <div class="site-section-title mb-5">
-          <h2>Related Properties</h2>
+          <h2>O'xshash e'lonlar</h2>
         </div>
       </div>
     </div>

@@ -33,28 +33,7 @@ class SubscribeEmail(models.Model):
     def __str__(self):
         return f"{self.email} was subscrbied at {self.created_at}"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# it is not necessary now
 # class AboutOurs(models.Model):
 #     our_company = models.TextField()
 #     pic_company = models.ImageField(upload_to='aboutOurs/about_picture')

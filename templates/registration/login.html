@@ -1,18 +1,43 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{%  block css %}
+<style>
+.div-links{
+    width: 80%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+.ul-links{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    list-style-type:none;
+    width: 100%;
+}
+.ul-links li{
+    width: 100%;
+    text-align: center;
+}
+</style>
+{% endblock %}
 {%  block title %}HomeSpace - Login page{% endblock %}
 {% block content %}
-<div class="container">
+<div class="container card mt-5 mb-5 p-5">
     <h2>Log In</h2>
-    <form method="post" class="uniForm blueForms"> {% csrf_token %}
+    <form method="post" class="uniForm blueForms container"> {% csrf_token %}
         {{ form|crispy }}
-        <ul>
-            <li><a href="{% url 'password_reset' %}">Forgot Your Password?</a></li>
-            <li>or</li>
-            <li><a href="{% url 'signup' %}">Sign Up</a></li>
-        </ul>
-        <button type="submit">Log In</button>
+        <div class="container div-links">
+            <ul class="ul-links">
+                <li><a href="{% url 'password_reset' %}">Forgot Password?</a></li>
+                <li>or</li>
+                <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            </ul>
+        </div>
+
+        <button type="submit" class="btn btn-success">Log In</button>
     </form>
 </div>
 {% endblock %}
