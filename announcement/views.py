@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect,get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.core.mail import send_mail  # for send message to mail
@@ -23,7 +24,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         form.instance.owner = self.request.user
         self.object = form.save()
-        return super().form_valid(form)
+        return super(PostCreateView,self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,8 +37,8 @@ class PostChageView(LoginRequiredMixin, UpdateView):
     model = Posts
     form_class = PostChageForm
     template_name = 'blog/create_post.html'
-    success_url = reverse_lazy('user_page')
     context_object_name = 'post'
+
 
     def get_form_class(self):
         client = self.request.user
@@ -46,15 +47,28 @@ class PostChageView(LoginRequiredMixin, UpdateView):
         else:
             return self.form_class
 
+
+    # this method add for delete old pictures in media files
+    def get_old_object(self):
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        old_obj = Posts.objects.get(slug=slug)
+        old_pic={
+            'picture' :old_obj.picture.path,
+            'picture2':old_obj.picture2.path,
+            'picture3':old_obj.picture3.path,
+        }
+        return old_pic
+
+
     def form_valid(self, form):
+        old_obj_pics=self.get_old_object() # => dict
         self.object = form.save(commit=False)
+
+        # if agent permits publish
         if self.object.is_publish and self.request.user.is_agent and self.object.is_send_mail == False:
             link = f"http://127.0.0.1:8000/property/{self.object.slug}/"  # this is not perfect way. In the future may be repair it
             title = self.object.title
-            message = f"""
-                Yangi ajoyib uy e'lonlar safiga qo'yildi :)\n
-                siz bu e'lonni quydagi havola roqali ko'rishingiz mumkin\n
-                 -> {link}"""
+            message = f"""Yangi ajoyib uy e'lonlar safiga qo'yildi :)\nsiz bu e'lonni quydagi havola roqali ko'rishingiz mumkin\n-> {link}"""
             emails = [''.join(i.email) for i in SubscribeEmail.objects.all()]
             print(emails)
 
@@ -65,8 +79,21 @@ class PostChageView(LoginRequiredMixin, UpdateView):
                 return redirect(self.request.path)
             form.instance.is_send_mail = True
 
+        # if pictures are update
+        if self.request.FILES.get('picture'):
+            os.remove(old_obj_pics['picture'])
+        if self.request.FILES.get('picture2'):
+            os.remove(old_obj_pics['picture2'])
+        if self.request.FILES.get('picture3'):
+            os.remove(old_obj_pics['picture3'])
+
         self.object = form.save()
         return super().form_valid(form)
+
+
+    def get_success_url(self):
+        url = self.object.get_absolute_url()
+        return url
 
 
 # Post delete view

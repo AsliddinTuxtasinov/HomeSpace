@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # global apps
     'django_filters',
     'crispy_forms',
+    'active_link',
 
     # local apps
     'authusers',

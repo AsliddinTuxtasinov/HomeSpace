@@ -1,3 +1,4 @@
+from os import remove
 from django.db import models
 # from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
@@ -50,11 +51,11 @@ class Posts(models.Model):
     more_info  = models.TextField('more info',default="more info ...")
     area       = models.FloatField('area (m.kv)',default=1)
     picture = models.ImageField(
-        upload_to=f"announcement/%Y/%m/%d/%H/announcement")
+        upload_to=f"announcement/%Y/%m/%d/announcement")
     picture2   = models.ImageField(
-        upload_to=f"announcement/%Y/%m/%d/%H/announcement", blank=True,null=True)
+        upload_to=f"announcement/%Y/%m/%d/announcement")
     picture3   = models.ImageField(
-        upload_to=f"announcement/%Y/%m/%d/%H/announcement",blank=True,null=True)
+        upload_to=f"announcement/%Y/%m/%d/announcement")
     beds = models.PositiveIntegerField(
         'badroom',validators=[MinValueValidator(1), MaxValueValidator(5)],default=1)
     baths = models.PositiveIntegerField(
@@ -77,6 +78,14 @@ class Posts(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super().save(*args,**kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.picture.delete()
+        self.picture2.delete()
+        self.picture3.delete()
+        super().delete(*args, **kwargs)
+
+
 
     def get_absolute_url(self):
         kwargs = { 'slug': self.slug }

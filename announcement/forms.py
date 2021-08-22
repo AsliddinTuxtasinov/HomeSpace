@@ -26,15 +26,10 @@ class PostCreateForm(forms.ModelForm):
 
 
 class PostChageForm(forms.ModelForm):
-    picture = forms.ImageField(label='picture', required=True, widget=forms.FileInput(attrs={
-        'class': 'form-control-file'
-    }))
-    picture2 = forms.ImageField(label='picture-2',required=True ,widget=forms.FileInput(attrs={
-        'class': 'form-control-file'
-    }))
-    picture3 = forms.ImageField(label='picture-3',required=True, widget=forms.FileInput(attrs={
-        'class': 'form-control-file'
-    }))
+    picture  = forms.ImageField(label='picture',  required=True, widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+    picture2 = forms.ImageField(label='picture-2',required=True ,widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+    picture3 = forms.ImageField(label='picture-3',required=True, widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+
     class Meta:
         model=Posts
         exclude = ('owner', 'slug', 'is_publish','is_send_mail')
