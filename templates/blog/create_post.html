@@ -16,11 +16,6 @@
         {% endfor %}
         <form method="post" id="postForm" data-cities-url="{% url 'ajax_load_cities' %}" enctype="multipart/form-data" class="form-group">
             {% csrf_token %}
-            <!-- {% for forms in form %}
-                {{forms.label}}
-                {{forms}}
-                {{forms.errors}}
-            {% endfor %} -->
             {{ form|crispy }}
             <button type="submit" class="btn btn-success">{% if is_create_post %}Add Anouncment{% else %}Chage Anouncment{% endif %}</button>
         </form>

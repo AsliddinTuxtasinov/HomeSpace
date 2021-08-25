@@ -14,5 +14,4 @@ urlpatterns = [
     path('announcement/', AnnouncmentPageView.as_view(), name='announcement'),
 
     path('contact-with-agent/<slug:slug>/', ContactWithAgentView.as_view(), name='contact'), # ariza qoldirish uchun
-
 ]

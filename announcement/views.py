@@ -47,7 +47,6 @@ class PostChageView(LoginRequiredMixin, UpdateView):
         else:
             return self.form_class
 
-
     # this method add for delete old pictures in media files
     def get_old_object(self):
         slug = self.kwargs.get(self.slug_url_kwarg)
@@ -59,14 +58,14 @@ class PostChageView(LoginRequiredMixin, UpdateView):
         }
         return old_pic
 
-
     def form_valid(self, form):
         old_obj_pics=self.get_old_object() # => dict
         self.object = form.save(commit=False)
 
+
         # if agent permits publish
         if self.object.is_publish and self.request.user.is_agent and self.object.is_send_mail == False:
-            link = f"http://127.0.0.1:8000/property/{self.object.slug}/"  # this is not perfect way. In the future may be repair it
+            link = f"http://uybozor.pythonanywhere.com/property/{self.object.slug}/" # f"http://127.0.0.1:8000/property/{self.object.slug}/"  # this is not perfect way. In the future may be repair it
             title = self.object.title
             message = f"""Yangi ajoyib uy e'lonlar safiga qo'yildi :)\nsiz bu e'lonni quydagi havola roqali ko'rishingiz mumkin\n-> {link}"""
             emails = [''.join(i.email) for i in SubscribeEmail.objects.all()]
@@ -90,7 +89,6 @@ class PostChageView(LoginRequiredMixin, UpdateView):
         self.object = form.save()
         return super().form_valid(form)
 
-
     def get_success_url(self):
         url = self.object.get_absolute_url()
         return url
@@ -99,10 +97,10 @@ class PostChageView(LoginRequiredMixin, UpdateView):
 # Post delete view
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Posts
-    template_name = 'blog/posts_confirm_delete.html'
     success_url = reverse_lazy('user_page')
-    context_object_name = 'post'
 
+
+# Detail page view
 class DetailPageView(DetailView):
     model = Posts
     context_object_name = 'post'
@@ -124,6 +122,7 @@ class DetailPageView(DetailView):
         context['comments'] = PostComment.objects.filter(post=self.object,parent=None)
         context['is_author_or_agent'] = True if agent or owner else False
         return context
+
 
 # AJAX
 def load_cities(request):

@@ -1,6 +1,4 @@
-from os import remove
 from django.db import models
-# from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
 
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -14,7 +12,7 @@ from authusers.models import Agents
 
 
 class Regions(models.Model):
-    region = models.CharField(max_length=150)
+    region = models.CharField(max_length=150,unique=True)
 
     def __str__(self):
         return self.region
@@ -42,7 +40,7 @@ class Posts(models.Model):
 
     sale = 'buy'; rent = 'rent'
     type_status = [ (sale, 'Buy'),(rent, 'Rent') ]
-    ### 
+
     title      = models.CharField(max_length=255,unique=True)
     home_type  = models.CharField(max_length=20, choices=type, default=type[2][0])
     type = models.CharField(max_length=20, choices=type_status, default=type_status[0][0])

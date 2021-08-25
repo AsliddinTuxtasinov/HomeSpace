@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{%  block css %}
+<style>
+.del-post{
+  background-color: hsl(0, 0%, 95%);
+  padding: 1% 0;
+}
+.hide{
+  display: none;
+  transition: all 0.5s linear;
+}
+</style>
+{% endblock %}
 {%  block title %}{{post.title|title}}{% endblock %}
 {% block content %}
 <div class="site-blocks-cover overlay" style="background-image: url({% static 'images/hero_bg_2.jpg' %});" data-aos="fade" data-stellar-background-ratio="0.5">
@@ -18,8 +30,19 @@
         <p class="mb-5"><strong class="h2 text-success font-weight-bold">${{post.price}}</strong></p>
         {% if user.is_authenticated %}
           {% if is_author_or_agent %}
-            <a href="{{post.get_absolute_url_edit}}">Edit</a> |
-            <a href="{{post.get_absolute_url_delete}}">Delete</a>
+            <a href="{{post.get_absolute_url_edit}}" class="btn btn-success">Edit</a>
+            <button type="button" id="main_del_btn" class="btn btn-danger">Delete</button>
+
+            <div class="del-post mt-1 hide">
+              <div class="container">
+                <form method="post" action="{{post.get_absolute_url_delete}}">
+                    {% csrf_token %}
+                    <h5>Siz rostdan ham bergan "{{post.title}}" e'loningizni o'chirmoqchimisiz?</h5>
+                    <button type="submit" class="btn btn-danger">yes</button>
+                    <button type="button" id="cancel_del_btn" class="btn btn-success">no</button>
+                </form>
+              </div>
+            </div>
           {% endif %}
         {% endif %}
       </div>
@@ -159,7 +182,7 @@
 
         <div class="bg-white widget border rounded">
           <h3 class="h4 text-black widget-title mb-3">Contact Agent</h3>
-<!--          -->
+
           <form action="{{post.get_contact_with_agent_url}}" method="post" class="form-contact-agent">
             {% csrf_token %}
             {% for contact_form in contact_with_agent_form %}
@@ -172,7 +195,6 @@
             <div class="form-group">
               <input type="submit" id="phone" class="btn btn-primary" value="Send Message">
             </div>
-<!--            -->
           </form>
 
         </div>
@@ -263,4 +285,20 @@
   </div>
 </div>
 
+{% endblock %}
+{%  block js %}
+<script>
+const main_del_btn=document.querySelector("#main_del_btn")
+const cancel_del_btn=document.querySelector("#cancel_del_btn")
+const del_post=document.querySelector(".del-post")
+
+main_del_btn.onclick =()=>{
+  main_del_btn.classList.add("hide")
+  del_post.classList.remove("hide")
+};
+cancel_del_btn.onclick =()=>{
+  main_del_btn.classList.remove("hide")
+  del_post.classList.add("hide")
+};
+</script>
 {% endblock %}

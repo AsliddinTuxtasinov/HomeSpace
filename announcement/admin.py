@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Posts,Regions,Districts,PostComment
 
 
+
 @admin.register(Posts)
 class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug":("title",)}
@@ -10,13 +11,12 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Regions)
 class RegionAdmin(admin.ModelAdmin):
-    pass
-    # list_display = ['__all__']
+    list_display = ['region']
+
 
 @admin.register(Districts)
 class DistrictAdmin(admin.ModelAdmin):
-    pass
-    # list_display = ['__all__']
+    list_display = ['region','district']
 
 
 @admin.register(PostComment)

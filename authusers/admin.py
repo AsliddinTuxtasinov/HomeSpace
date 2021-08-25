@@ -4,7 +4,7 @@ from django.utils.translation import gettext, gettext_lazy as _
 
 
 from .forms import CostumeUserCreateForm, CostumeUserChangeForm
-from .models import CustomUser,Agents
+from .models import CustomUser,Agents,Founders
 
 # Register your models here.
 @admin.register(CustomUser)
@@ -33,3 +33,8 @@ class CostumUserAdmin(UserAdmin):
 @admin.register(Agents)
 class AgentAdmin(admin.ModelAdmin):
     list_display=('agent','telefon_number','telegram')
+
+
+@admin.register(Founders)
+class FounderAdmin(admin.ModelAdmin):
+    list_display=('founder',)

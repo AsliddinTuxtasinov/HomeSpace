@@ -3,23 +3,44 @@
 {%  block title %}Contact client{% endblock %}
 {%  block css %}
 <link rel="stylesheet" href="{% static 'css/user-page-agent.css' %}">
+<style>
+.hide{
+    display: none;
+    transition: all 0.5s linear;
+}
+</style>
 {% endblock %}
 {% block content %}
 <div class="container page-section">
     <ul class="card">
-        {% for contact in contacts %}
-            <li class="card card-part">
-                <strong>{{contact.name}}</strong><br>
-                <i><a href="{{contact.post.get_absolute_url}}">{{contact.post}}</i></a><br>
-                shu e'longa qiziqish bildiryapti, siz u bilan quydagi:
-                <ul class="contact-client">
-                    <li><a href="mailto:{{contact.email}}">{{contact.email}}</a> email</li>
-                    <li><a href="tel:{{contact.number}}">{{contact.number}}</a> telefon no'meri</li>
-                </ul>
-                orqali bo'glanishingiz mumkin!
-                <a href="{{contact.get_absolute_url_delete}}" class="btn btn-danger">o'chirish</a>
-            </li>
-        {% endfor %}
+        
+        {% if contacts %}
+            {% for contact in contacts %}
+                <li class="card card-part">
+                    <strong>{{contact.name}}</strong><br>
+                    <i><a href="{{contact.post.get_absolute_url}}">{{contact.post}}</i></a><br>
+                    shu e'longa qiziqish bildiryapti, siz u bilan quydagi:
+                    <ul class="contact-client">
+                        <li><a href="mailto:{{contact.email}}">{{contact.email}}</a> email</li>
+                        <li><a href="tel:{{contact.number}}">{{contact.number}}</a> telefon no'meri</li>
+                    </ul>
+                    orqali bo'glanishingiz mumkin!
+                    <a class="btn btn-danger" id="main-del-btn">o'chirish</a>
+                    
+                    <div class="container card border hide" id="display-content">
+                        <form method="post" action="{{contact.get_absolute_url_delete}}">
+                            {% csrf_token %}
+                            <h3>Siz rostdan ham bergan "{{contact.name}}"  o'chirmoqchimisiz?</h3>
+                            <button class="btn btn-danger" type="submit">o'chrish</button>
+                            <button class="btn btn-success" type="button" id="cancel-del-btn">bekor qilish</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        {% else %}
+            <h1>Hozircha sizda habarlar mavjud emas !</h1>
+        {% endif %}
+            
     </ul>
 </div>
 <div class="site-section site-section-sm bg-light">
@@ -30,5 +51,18 @@
 {% endblock %}
 {%  block js %}
 <script>
+const main_del_btn = document.querySelector("#main-del-btn")
+const cancel_del_btn = document.querySelector("#cancel-del-btn")
+const display_content=document.querySelector("#display-content")
 
+main_del_btn.onclick =()=>{
+    main_del_btn.classList.add("hide")
+    display_content.classList.remove("hide")
+
+};
+cancel_del_btn.onclick =()=>{
+    main_del_btn.classList.remove("hide")
+    display_content.classList.add("hide")
+};
+</script>
 {% endblock %}

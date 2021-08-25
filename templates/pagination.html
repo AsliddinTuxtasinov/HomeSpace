@@ -18,7 +18,7 @@
           {% if page_obj.number == i %}
             <a class="active" style="cursor:pointer;">{{i}}</a>
           {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
-            <a href="?{{region_page}}{{district_page}}page={{ i }}">{{ i }}</a>
+            <a href="?{{home_type_page}}{{type_page}}{{region_page}}{{district_page}}{{price__lt_page}}{{price__gt_page}}{{area__lt_page}}{{area__gt_page}}{{year_build__lt_page}}{{year_build__gt_page}}page={{ i }}">{{ i }}</a>
           {% endif %}
         {% endfor %}
 

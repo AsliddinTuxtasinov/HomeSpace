@@ -1,6 +1,10 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import SignUpView, UserEditView ,UserPageView,ContactsListView,ContactDeleteView
+from .views import (
+    SignUpView,UserEditView,UserPageView,
+    ContactsListView,ContactDeleteView
+)
+
 
 urlpatterns = [
     path('signup/', SignUpView.as_view(), name='signup'),
@@ -20,6 +24,4 @@ urlpatterns = [
     path('user_page/', UserPageView.as_view(), name='user_page'),
     path('contact-with-client/', ContactsListView.as_view(), name='contact-with-client-page'),
     path('contact-with-agent-delete/<int:pk>/', ContactDeleteView.as_view(), name='contact_delete'),
-
-
 ]

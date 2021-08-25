@@ -2,7 +2,7 @@ from django import forms
 from .models import Posts,Districts,PostComment
 
 
-# Post forms
+
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Posts

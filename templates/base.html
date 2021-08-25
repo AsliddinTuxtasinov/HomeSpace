@@ -27,7 +27,7 @@
   </head>
   <body>
 
-  <div class="site-loader" style="background: "{% static 'url(/images/loader.gif)' %}" center no-repeat #fff;"></div>
+  <div class="site-loader" style='background: "{% static 'url(/images/loader.gif)' %}" center no-repeat #fff;'></div>
 
   <div class="site-wrap">
 
@@ -45,14 +45,14 @@
         <div class="row align-items-center">
           <div class="col-6 col-md-6">
             <p class="mb-0">
-              <a href="#" class="mr-3"><span class="text-black fl-bigmug-line-phone351"></span> <span class="d-none d-md-inline-block ml-2">+2 102 3923 3922</span></a>
-              <a href="#"><span class="text-black fl-bigmug-line-email64"></span> <span class="d-none d-md-inline-block ml-2">info@domain.com</span></a>
+              <a href="tel:+998993968839" class="mr-3"><span class="text-black fl-bigmug-line-phone351"></span> <span class="d-none d-md-inline-block ml-2">+998993968839</span></a>
+              <a href="mailto:asliddintukhtasinov5@gmail.com"><span class="text-black fl-bigmug-line-email64"></span> <span class="d-none d-md-inline-block ml-2">asliddintukhtasinov5@gmail.com</span></a>
             </p>
           </div>
           <div class="col-6 col-md-6 text-right">
-            <a href="#" class="mr-3"><span class="text-black icon-facebook"></span></a>
-            <a href="#" class="mr-3"><span class="text-black icon-twitter"></span></a>
-            <a href="#" class="mr-0"><span class="text-black icon-linkedin"></span></a>
+            <a href="https://t.me/Asliddindev" class="mr-3"><span class="text-black icon-facebook"></span></a>
+            <a href="https://t.me/Asliddindev" class="mr-3"><span class="text-black icon-twitter"></span></a>
+            <a href="https://t.me/Asliddindev" class="mr-0"><span class="text-black icon-linkedin"></span></a>
           </div>
         </div>
       </div>
@@ -91,7 +91,11 @@
                       <ul class="dropdown">
                         <li><a href="{% url 'logout' %}">Log out</a></li>
                         <li><a href="{% url 'edit_profile' %}">Edite profile</a></li>
-                        <li><a href="{% url 'create_post' %}">Add anouncment</a></li>
+                        {% if user.is_agent %}
+                          <li><a href="{% url 'contact-with-client-page' %}">contact with clients</a></li>
+                        {% else %}
+                          <li><a href="{% url 'create_post' %}">Add anouncment</a></li>
+                        {% endif %}
                       </ul>
                     </li>
                   {% else %}
@@ -122,7 +126,7 @@
           <div class="col-lg-4">
             <div class="mb-5">
               <h3 class="footer-heading mb-4">About HomeSpace</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe pariatur reprehenderit vero atque, consequatur id ratione, et non dignissimos culpa? Ut veritatis, quos illum totam quis blanditiis, minima minus odio!</p>
+              <p>Bu online uylar bozori nafaqat uylar balki boshqa ko'chmas(restaran, magazin,..) mulklarni ham. Biz sizga ijaraga mulk taklif etishimiz va mulkingizni sotish ga yordam beramiz.</p>
             </div>
           </div>
 
@@ -133,18 +137,22 @@
               </div>
               <div class="col-md-6 col-lg-6">
                 <ul class="list-unstyled">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">Buy</a></li>
-                  <li><a href="#">Rent</a></li>
-                  <li><a href="#">Properties</a></li>
+                  <li><a href="\">Home</a></li>
+                  <li><a href="{% url 'main:announcement' %}?type=buy">Buy</a></li>
+                  <li><a href="{% url 'main:announcement' %}?type=rent">Rent</a></li>
+                  <li><a href="{% url 'main:announcement' %}">Announcement</a></li>
                 </ul>
               </div>
               <div class="col-md-6 col-lg-6">
                 <ul class="list-unstyled">
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">Privacy Policy</a></li>
-                  <li><a href="#">Contact Us</a></li>
-                  <li><a href="#">Terms</a></li>
+                  <li><a href="{% url 'main:about' %}">About Us</a></li>
+                  <li><a href="{% url 'main:contact' %}">Contact Us</a></li>
+                    {% if user.is_authenticated %}
+                      <li><a href="{% url 'logout' %}">Log out</a></li>
+                    {% else %}
+                      <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                      <li><a href="{% url 'login' %}">Log in</a></li>
+                    {%endif%}
                 </ul>
               </div>
             </div>
@@ -154,10 +162,10 @@
             <h3 class="footer-heading mb-4">Follow Us</h3>
 
                 <div>
-                  <a href="#" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
-                  <a href="#" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
-                  <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
-                  <a href="#" class="pl-3 pr-3"><span class="icon-linkedin"></span></a>
+                  <a href="https://t.me/Asliddindev" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
+                  <a href="https://t.me/Asliddindev" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
+                  <a href="https://t.me/Asliddindev" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+                  <a href="https://t.me/Asliddindev" class="pl-3 pr-3"><span class="icon-linkedin"></span></a>
                 </div>
 
           </div>
@@ -170,7 +178,7 @@
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             Copyright &copy;</script><script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
               <br>
-            Copyright &copy;</script><script>document.write(new Date().getFullYear());</script> All rights reserved | This template's backend part is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://t.me/Asliddindev" target="_blank" >Asliddin Tuxtasinov</a>
+            Copyright &copy;</script><script>document.write(new Date().getFullYear());</script> This template's backend part and some frontend part are made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://t.me/Asliddindev" target="_blank" >Asliddin Tuxtasinov</a>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
           </div>

@@ -1,7 +1,7 @@
 from django import forms
-from django_filters import FilterSet,NumberFilter,ChoiceFilter
+from django_filters import FilterSet,NumberFilter
 
-from .models import ContactWithAgent,SubscribeEmail
+from .models import ContactWithAgent,SubscribeEmail,Contact
 from announcement.models import Posts,PostComment
 
 
@@ -32,6 +32,18 @@ class FilterHomeForm(FilterSet):
     class Meta:
         model=Posts
         fields=('home_type','type','region','district','type')
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['full_name','email','subject','message']
+        widgets={
+                'full_name':forms.TextInput(attrs={'class': 'form-control','placeholder':'Full Name'}),
+                'email':forms.EmailInput(attrs={'class': 'form-control','placeholder':'Email Address'}),
+                'subject':forms.TextInput(attrs={'class': 'form-control','placeholder':'Enter Subject'}),
+                'message':forms.Textarea(attrs={'class': 'form-control','placeholder':'Say hello to us'}),
+        }
 
 
 class ContactWithAgentForm(forms.ModelForm):

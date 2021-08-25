@@ -7,7 +7,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 from .forms import CostumeUserCreateForm,CostumeUserChangeForm,AgentsEditForm
-
 from main.models import ContactWithAgent,SubscribeEmail
 from announcement.models import Posts
 from .models import Agents
@@ -69,8 +68,11 @@ class UserPageView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         client = self.request.user
         if client.is_agent:
-            diller=Agents.objects.get(agent=client)
-            queryset = self.model._default_manager.filter(diller=diller)
+            try:
+                diller=Agents.objects.get(agent=client)
+                queryset = self.model._default_manager.filter(diller=diller)
+            except:
+                queryset = self.model._default_manager.none()
         else:
             queryset = self.model._default_manager.filter(owner=client)
         return queryset
@@ -93,13 +95,15 @@ class ContactsListView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         client = self.request.user
         if client.is_authenticated:
-            diller=Agents.objects.get(agent=client)
-            queryset = self.model._default_manager.filter(agent=diller)
+            try:
+                diller=Agents.objects.get(agent=client)
+                queryset = self.model._default_manager.filter(agent=diller)
+            except:
+                queryset = self.model._default_manager.none()
             return queryset
         return None
 
+# Delete contact with agent leters
 class ContactDeleteView(LoginRequiredMixin,DeleteView):
     model = ContactWithAgent
-    template_name = 'profilePage/contact_with_client_delete.html'
     success_url = reverse_lazy('contact-with-client-page')
-    context_object_name = 'contact_client'
