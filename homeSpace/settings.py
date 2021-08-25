@@ -55,8 +55,8 @@ AUTH_USER_MODEL = 'authusers.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', # white noice midileware
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -134,9 +134,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static',]
-STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) # new
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' # new
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #new
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' # new
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # Media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -160,6 +160,3 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "tukhtasinovasliddin@gmail.com"
 EMAIL_HOST_PASSWORD = "asliddin1!@"
-
-
-
