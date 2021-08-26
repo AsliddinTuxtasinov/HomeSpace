@@ -37,7 +37,6 @@ class HomePageView(ListView):
             context = super().get_context_data()
 
         context['agents']       = Agents.objects.all()
-        print(len(Agents.objects.all()))
         context['main_posts'] = Posts.objects.all()[0:3]
         context['subsribe_form'] =SubscribeForm
         context['main_page']  = True
