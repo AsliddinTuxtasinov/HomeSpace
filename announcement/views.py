@@ -116,7 +116,7 @@ class DetailPageView(DetailView):
         owner = self.object.owner == client
 
         context = super().get_context_data()
-        context['posts'] = self.model.objects.filter(region=obj.region,district=obj.district, created_at__gt=obj.created_at)[0:3]
+        context['posts'] = self.model.objects.filter(is_publish=True,region=obj.region,district=obj.district, created_at__gt=obj.created_at)[0:3]
         context['contact_with_agent_form'] = ContactWithAgentForm
         context['post_commentform'] = PostCommentForm
         context['comments'] = PostComment.objects.filter(post=self.object,parent=None)

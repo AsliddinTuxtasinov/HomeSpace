@@ -18,7 +18,7 @@ from .forms import FilterHomeForm,SubscribeForm,ContactWithAgentForm,ContactForm
 
 # Home page View
 class HomePageView(ListView):
-    queryset = Posts.objects.all()
+    queryset = Posts.objects.filter(is_publish=True)
     context_object_name = 'posts'
     template_name = 'index.html'
     paginate_by = 9
@@ -95,7 +95,7 @@ class SubscribeView(CreateView):
 
 # Announcment Page View
 class AnnouncmentPageView(ListView):
-    queryset = Posts.objects.all()
+    queryset = Posts.objects.filter(is_publish=True)
     context_object_name = 'posts'
     template_name = 'properties.html'
     paginate_by = 9
