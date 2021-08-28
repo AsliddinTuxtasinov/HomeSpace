@@ -93,6 +93,7 @@
                         <li><a href="{% url 'edit_profile' %}">Edite profile</a></li>
                         {% if user.is_agent %}
                           <li><a href="{% url 'contact-with-client-page' %}">contact with clients</a></li>
+                          <li><a href="{% url 'announcment_to_be_published' %}">announcment to be published</a></li>
                         {% else %}
                           <li><a href="{% url 'create_post' %}">Add anouncment</a></li>
                         {% endif %}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+        *{
+            margin:0;
+            padding: 0;
+        }
+        body{
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            background-color: black;
+            color: aliceblue;
+        }
+        .main{
+            display:flex;
+            align-items: center;
+            height: 90vh;
+            flex-direction: column;
+            padding: 2rem;
+            overflow: hidden;
+        }
+        .main .title{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 90%;
+            min-height: 30%;
+        }
+        .main .title h1{
+            width: 90%;
+            text-align: center;
+            font-size: 4rem;
+            
+        }
+        .main .title h1 span{
+            display: block;
+        }
+        a{
+            text-decoration: none;
+            color: cadetblue;
+        }
+    </style>
+    <title>404page not found</title>
+</head>
+<body>
+    <div class="main">
+        <div class="title">
+            <h1><span>404</span>page not found</h1>
+            <h3>This site can't be reached</h3>
+        </div>
+        <a href="{% url 'main:index' %}">HOME PAGE</a>
+        <h4><a href="{% url 'main:index' %}">Asliddin Tuxtasinov</a></h4>
+    </div>        
+</body>
+</html>

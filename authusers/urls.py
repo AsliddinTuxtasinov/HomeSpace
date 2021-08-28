@@ -2,7 +2,8 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import (
     SignUpView,UserEditView,UserPageView,
-    ContactsListView,ContactDeleteView
+    ContactsListView,ContactDeleteView,
+    AnnouncmentToBePublishedView
 )
 
 
@@ -22,6 +23,7 @@ urlpatterns = [
         template_name="registration/password_reset_complete.html"), name="password_reset_complete"),
 
     path('user_page/', UserPageView.as_view(), name='user_page'),
+    path('announcment-to-be-published/', AnnouncmentToBePublishedView.as_view(), name='announcment_to_be_published'),
     path('contact-with-client/', ContactsListView.as_view(), name='contact-with-client-page'),
     path('contact-with-agent-delete/<int:pk>/', ContactDeleteView.as_view(), name='contact_delete'),
 ]

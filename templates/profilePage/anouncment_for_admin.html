@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{%  block title %}
+    {% if user.is_authenticated %}
+        Welcome {{user.username}}
+    {% endif %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated %}
+        <div class="content-header">
+            {% if user.is_agent %}
+                <h1>Welcome agent {{user.username}}!</h1>
+                <div class="site-section site-section-sm bg-light">
+                    <div class="container">
+                        {% include 'posts.html' %}
+                        {% include 'pagination.html' %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <h1>You are not login</h1>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,7 +1,8 @@
 import os
 from django.shortcuts import render, redirect,get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.core.mail import send_mail  # for send message to mail
+from django.core.mail import EmailMessage # for send messages to subscribe members' email
+from django.conf import settings
 from django.contrib import messages
 from django.views.generic import UpdateView,CreateView,DeleteView,DetailView,View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -31,6 +32,9 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         context["is_create_post"] = True
         return context
 
+    def get_success_url(self):
+        return
+
 
 # Post chahge view
 class PostChageView(LoginRequiredMixin, UpdateView):
@@ -38,6 +42,7 @@ class PostChageView(LoginRequiredMixin, UpdateView):
     form_class = PostChageForm
     template_name = 'blog/create_post.html'
     context_object_name = 'post'
+    success_url = reverse_lazy('user_page')
 
 
     def get_form_class(self):
@@ -62,36 +67,36 @@ class PostChageView(LoginRequiredMixin, UpdateView):
         old_obj_pics=self.get_old_object() # => dict
         self.object = form.save(commit=False)
 
-
         # if agent permits publish
         if self.object.is_publish and self.request.user.is_agent and self.object.is_send_mail == False:
             link = f"http://uybozor.pythonanywhere.com/property/{self.object.slug}/" # f"http://127.0.0.1:8000/property/{self.object.slug}/"  # this is not perfect way. In the future may be repair it
-            title = self.object.title
-            message = f"""Yangi ajoyib uy e'lonlar safiga qo'yildi :)\nsiz bu e'lonni quydagi havola roqali ko'rishingiz mumkin\n-> {link}"""
-            emails = [''.join(i.email) for i in SubscribeEmail.objects.all()]
-            print(emails)
+            title_body = self.object.title
+            message_body = f"Yangi ajoyib uy e'lonlar safiga qo'yildi :)\nsiz bu e'lonni quydagi havola roqali ko'rishingiz mumkin\n{link}"
+            to_emails = [''.join(i.email) for i in SubscribeEmail.objects.all()]
 
-            try:
-                send_mail(title, message, '', emails, fail_silently=False, )
-            except:
-                messages.error(self.request, "serverga ulanishda xatobor iltimos boshqatan urinib ko'ring !")
-                return redirect(self.request.path)
+            if to_emails:
+                try:
+                    send_message=EmailMessage(
+                        title_body,
+                        message_body,
+                        settings.EMAIL_HOST_USER,
+                        to_emails,
+                    )
+                    send_message.fail_silently=False
+                    send_message.send()
+                except:
+                    messages.error(self.request, "serverga ulanishda xatobor iltimos boshqatan urinib ko'ring !")
+                    return redirect(self.request.path)
+
             form.instance.is_send_mail = True
 
         # if pictures are update
-        if self.request.FILES.get('picture'):
-            os.remove(old_obj_pics['picture'])
-        if self.request.FILES.get('picture2'):
-            os.remove(old_obj_pics['picture2'])
-        if self.request.FILES.get('picture3'):
-            os.remove(old_obj_pics['picture3'])
+        if self.request.FILES.get('picture'):  os.remove(old_obj_pics['picture'])
+        if self.request.FILES.get('picture2'): os.remove(old_obj_pics['picture2'])
+        if self.request.FILES.get('picture3'): os.remove(old_obj_pics['picture3'])
 
         self.object = form.save()
         return super().form_valid(form)
-
-    def get_success_url(self):
-        url = self.object.get_absolute_url()
-        return url
 
 
 # Post delete view

@@ -5,9 +5,10 @@ from django.http import Http404
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView,CreateView
 from django.views.generic.base import View
+from django.conf import settings
 
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage #,send_mail,send_mass_mail
 
 from authusers.models import Agents,Founders
 from announcement.models import Posts
@@ -77,10 +78,14 @@ class SubscribeView(CreateView):
                 to=[form.cleaned_data.get('email')]
 
                 try:
-                    send_mail(
+                    send_message=EmailMessage(
                         "Mufaqqiyatli obuna bo'lindi!",
                         "Mufaqqiyatli obuna bo'ldingiz, bu sizga eng so'ngi e'lonlardan habardor bo'lasiz!",
-                        '',to,fail_silently=False,)
+                        settings.EMAIL_HOST_USER,
+                        to,
+                    )
+                    send_message.fail_silently=False
+                    send_message.send()
                 except:
                     messages.error(request, "server bilan bog'liq xatolik iltimos boshqattan urinib ko'ring!")
                     return redirect('/')

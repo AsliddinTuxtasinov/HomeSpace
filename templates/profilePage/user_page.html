@@ -16,6 +16,10 @@
                         <a href="{% url 'contact-with-client-page' %}">contact with clients</a>
                         <span class="badge bg-primary rounded-pill">{{contact_with_cilent_count}}</span>
                     </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'announcment_to_be_published' %}">chop etilishi kerak bo'lgan e'lonlar</a>
+                        <span class="badge bg-primary rounded-pill">{{new_announcment_publish_count}}</span>
+                    </li>
                 </ul>
             {% else %}
                 <h1>Welcome {{user.username}}!</h1>

@@ -70,7 +70,7 @@ class UserPageView(LoginRequiredMixin,ListView):
         if client.is_agent:
             try:
                 diller=Agents.objects.get(agent=client)
-                queryset = self.model._default_manager.filter(diller=diller)
+                queryset = self.model._default_manager.filter(diller=diller,is_publish=True)
             except:
                 queryset = self.model._default_manager.none()
         else:
@@ -82,6 +82,7 @@ class UserPageView(LoginRequiredMixin,ListView):
         client = self.request.user
         if client.is_agent:
             context['contact_with_cilent_count']=len(ContactWithAgent.objects.filter(agent__agent=client))
+            context['new_announcment_publish_count'] = len(Posts.objects.filter(diller__agent=client,is_publish=False))
         return context
 
 
@@ -98,6 +99,24 @@ class ContactsListView(LoginRequiredMixin,ListView):
             try:
                 diller=Agents.objects.get(agent=client)
                 queryset = self.model._default_manager.filter(agent=diller)
+            except:
+                queryset = self.model._default_manager.none()
+            return queryset
+        return None
+
+# Announcment to be published
+class AnnouncmentToBePublishedView(LoginRequiredMixin,ListView):
+    model = Posts
+    context_object_name = 'posts'
+    template_name = 'profilePage/anouncment_for_admin.html'
+    paginate_by = 4
+
+    def get_queryset(self):
+        client = self.request.user
+        if client.is_authenticated:
+            try:
+                diller=Agents.objects.get(agent=client)
+                queryset = self.model._default_manager.filter(diller=diller,is_publish=False)
             except:
                 queryset = self.model._default_manager.none()
             return queryset
