@@ -66,7 +66,7 @@ class PostChageView(LoginRequiredMixin, UpdateView):
 
         # if agent permits publish
         if self.object.is_publish and self.request.user.is_agent and self.object.is_send_mail == False:
-            link = f"http://uybozor.pythonanywhere.com/property/{self.object.slug}/" # f"http://127.0.0.1:8000/property/{self.object.slug}/"  # this is not perfect way. In the future may be repair it
+            link = f"http://uybozor.pythonanywhere.com/{self.object.get_absolute_url()}/" # f"http://127.0.0.1:8000/property/{self.object.slug}/"  # this is not perfect way. In the future may be repair it
             title_body = self.object.title
             message_body = f"Yangi ajoyib uy e'lonlar safiga qo'yildi :)\nsiz bu e'lonni quydagi havola roqali ko'rishingiz mumkin\n{link}"
             to_emails = [''.join(i.email) for i in SubscribeEmail.objects.all()]
