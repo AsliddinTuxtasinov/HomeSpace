@@ -32,9 +32,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         context["is_create_post"] = True
         return context
 
-    def get_success_url(self):
-        return
-
 
 # Post chahge view
 class PostChageView(LoginRequiredMixin, UpdateView):
